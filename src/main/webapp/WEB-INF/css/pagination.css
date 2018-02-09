@@ -1,0 +1,31 @@
+	/*·ÖÒ³*/
+	#pagination{text-align:center;margin:7px auto;}
+	#pagination span{
+		display:block;
+		float:left;
+		padding:6px 14px;
+		text-decoration:none;
+		border:1px solid #ccc;
+		border-right:none;
+		cursor:pointer;
+	}
+	#pagination span:last-of-type{
+		border-right: 1px solid #ccc;
+	}
+	#pagination span.grey{
+		color:#888;
+	}
+	#pagination span.grey:hover{
+		color:#ff0000;
+	}
+	#pagination span.light{
+		color:#ff0000;
+	}
+	#pagination span.light:link{
+		color:#ff0000;
+	}
+	#pagination span.light:visited{
+		color:#ff0000;
+	}
+	#page_index{width:60px; height:30px; border:1px solid ccc; margin:0px;}
+	#pagination_submit{width:60px; height:30px; border:1px solid #ccc; background-color:#efefef; cursor:pointer;}

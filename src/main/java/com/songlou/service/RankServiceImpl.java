@@ -41,6 +41,8 @@ public class RankServiceImpl implements RankService {
 		pagingModel.setDatas(ranks);
 		pagingModel.setTotalRecord(number);
 		pagingModel.setTotalPage((int)Math.ceil(number / pageSize));
+		pagingModel.setPageIndex(pageIndex);
+		pagingModel.setPageSize(pageSize);
 		
 		return pagingModel;
 	}
