@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,7 @@
 			<!-- top navigation -->
 			<%@ include file="/WEB-INF/views/commonheader.jsp"%>
 			<!-- /top navigation -->
-			
+
 			<!-- page content -->
 			<div class="right_col" role="main">
 				<div class="row">

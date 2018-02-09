@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songlou.mapper.RankMapper">
+	<!-- 插入数据 -->
+	<insert id="insert" parameterType="com.songlou.pojo.Rank">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into xin_rank(parentId, rankName, control, action, leftShow,
+		showOrder, depth)
+		values(#{parentId}, #{rankName}, #{control},
+		#{action}, #{leftShow}, #{showOrder},
+		#{depth})
+	</insert>
+
+	<!-- 定义查询的字段 -->
+	<sql id="pagingQueryField">
+		id,rootId,parentId,rankName,control,action,leftShow,showOrder,depth
+	</sql>
+	<!-- 定义分页查询的条件 -->
+	<sql id="pagingCondition">
+		<if test="rankName!=null"> rankName = #{rankName} </if>
+	</sql>
+	<!-- 分页查询记录 -->
+	<select id="selectPagingData" parameterType="hashmap"
+		resultType="com.songlou.pojo.Rank">
+		SELECT
+		<include refid="pagingQueryField"></include>
+		FROM xin_rank
+		<where>
+			<include refid="pagingCondition" />
+		</where>
+		<!-- limit #{start},#{number} -->
+		<!-- 注意上面这行分页方法是在程序处理好后分页的起始位置 ，而且是mysql的写法 -->
+		<!-- 如果是sqlserver，demo:limit ${(pageIndex-1)*pageSize}, ${pageIndex*pageSize} -->
+		limit ${(pageIndex-1)*pageSize}, #{pageSize}
+	</select>
+	<!-- 分页查询记录数 -->
+	<select id="selectPagingDataNumber" parameterType="hashmap" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM xin_rank
+		<where>
+			<include refid="pagingCondition" />
+		</where>
+	</select>
+</mapper>
+
+<!-- 参考地址： http://blog.csdn.net/summer_yuxia/article/details/53171794 http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html 
+	https://www.cnblogs.com/xingyunblog/p/6243179.html -->
