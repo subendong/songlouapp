@@ -12,7 +12,7 @@
 <!-- common css -->
 <%@ include file="/WEB-INF/views/commoncss.jsp"%>
 <!-- /common css -->
-<link href="<%=request.getContextPath()%>/css/pagination.css" rel="stylesheet">
+<link href="<%=request.getContextPath()%>/css/pagination.css" rel="stylesheet" />
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -35,9 +35,9 @@
 							<div class="x_panel">
 								<div class="x_title">
 									<h2>
-										Table design <small>Custom design</small>
+										权限管理 <small>权限列表</small>
 									</h2>
-									<ul class="nav navbar-right panel_toolbox">
+									<!-- <ul class="nav navbar-right panel_toolbox">
 										<li><a class="collapse-link"><i
 												class="fa fa-chevron-up"></i></a></li>
 										<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -49,17 +49,11 @@
 											</ul></li>
 										<li><a class="close-link"><i class="fa fa-close"></i></a>
 										</li>
-									</ul>
+									</ul> -->
 									<div class="clearfix"></div>
 								</div>
 
 								<div class="x_content">
-
-									<p>
-										Add class
-										<code>bulk_action</code>
-										to table for bulk actions options on row select
-									</p>
 									<!-- 异步加载数据 -->
 									<div class="table-responsive"></div>
 									<div id="pagination"></div>
@@ -91,7 +85,7 @@
 		function setPage(pageIndex) {
 			//这里还要获取其它参数，目前仅页码，所以没有可写代码
 			$.ajax({
-			    type:"get",
+			    type:"post",
 				url: "<%=request.getContextPath()%>/rank/list",
 				data : {pageIndex: pageIndex},
 				dataType : "html",

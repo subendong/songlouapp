@@ -47,7 +47,7 @@ public class RankController {
 	 * 异步获取列表
 	 * 请求参数获取的几种方法 ：https://www.cnblogs.com/xiaoxi/p/5695783.html
 	 */
-	@RequestMapping(value = "/list", method=RequestMethod.GET)
+	@RequestMapping(value = "/list", method=RequestMethod.POST)
 	public ModelAndView list(@RequestParam("pageIndex") int pageIndex){
 		int pageSize = 15;
 		

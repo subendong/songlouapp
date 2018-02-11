@@ -1,5 +1,5 @@
 	/*·ÖÒ³*/
-	#pagination{text-align:center;margin:7px auto;}
+	#pagination{margin:7px auto;}
 	#pagination span{
 		display:block;
 		float:left;
@@ -27,5 +27,5 @@
 	#pagination span.light:visited{
 		color:#ff0000;
 	}
-	#page_index{width:60px; height:30px; border:1px solid ccc; margin:0px;}
+	#page_index{width:50px; height:30px; border:1px solid ccc; margin:0px; text-align:center;}
 	#pagination_submit{width:60px; height:30px; border:1px solid #ccc; background-color:#efefef; cursor:pointer;}

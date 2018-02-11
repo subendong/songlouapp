@@ -7,12 +7,12 @@
 			<th class="column-title" >
 				<input type="checkbox" id="check-all" class="flat" />
 			</th>
-			<th class="column-title" style="display: table-cell;">id
+			<th class="column-title" style="display: table-cell;">ID
 			</th>
 			<th class="column-title" style="display: table-cell;">权限名称</th>
-			<th class="column-title" style="display: table-cell;">controller
+			<th class="column-title" style="display: table-cell;">模块
 			</th>
-			<th class="column-title" style="display: table-cell;">action</th>
+			<th class="column-title" style="display: table-cell;">操作</th>
 			<th class="column-title" style="display: table-cell;">菜单栏显示</th>
 			<th class="column-title" style="display: table-cell;">排序
 			</th>

@@ -36,23 +36,8 @@ jQuery.Pagination =
                }
                break;
        }
-
-       //alert(startI + "--" + endI);
-       var url = "[page]";
+       
        var arr = new Array();
-
-       //是否显示记录数和当前页数
-       if (show_total_page) {
-           arr.push("共" + total_number + "条 ");
-       }
-
-       if (show_page_index) {
-           arr.push("当前第" + page_index + "/" + total_page + "页 ");
-       }
-
-       if (show_page_size) {
-           arr.push(page_size + "条/页 ");
-       }
        
        //处理首页、上一页
        if (page_index == 1) {
@@ -85,11 +70,25 @@ jQuery.Pagination =
            arr.push("<span title=\"尾页\" class=\"grey\" page_index=\"" + total_page + "\">尾页</span>");
        }
 
+       //是否显示记录数和当前页数
+       //push.push("<i style=\"margin-left:20px;\">");
+       if (show_total_page) {
+           arr.push("共" + total_number + "条 ");
+       }
+
+       if (show_page_index) {
+           arr.push("当前第" + page_index + "/" + total_page + "页 ");
+       }
+
+       if (show_page_size) {
+           arr.push(page_size + "条/页 ");
+       }
+       //push.push("</i>");
+
        if (show_input) {
            arr.push("<input type=\"text\" name=\"page_index\" id=\"page_index\" value=\"" + page_index + "\" size=\"3\" />&nbsp;");
            arr.push("<input type=\"button\" value=\"查询\" onclick=\"go()\" id=\"pagination_submit\" />\n");
            arr.push("<script language=\"javascript\">\n");
-           arr.push("var str = \"" + url + "\";\n");
            arr.push("function go()\n");
            arr.push("{\n");
            arr.push("var page_index = document.getElementById(\"page_index\").value;\n");
