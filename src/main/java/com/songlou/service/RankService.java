@@ -1,9 +1,7 @@
 package com.songlou.service;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.songlou.model.PagingModel;
+import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
 
 /**
@@ -20,9 +18,8 @@ public interface RankService {
 	
 	/**
 	 * ∑÷“≥≤È—Ø
-	 * @param pageIndex
-	 * @param pageSize
+	 * @param searchModel
 	 * @return
 	 */
-	public PagingModel<Rank> selectPagingData(int pageIndex, int pageSize);
+	public PagingModel<Rank> selectPagingData(RankSearchModel searchModel);
 }

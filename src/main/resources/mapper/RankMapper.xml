@@ -18,12 +18,19 @@
 	<sql id="pagingQueryField">
 		id,rootId,parentId,rankName,control,action,leftShow,showOrder,depth
 	</sql>
-	<!-- 定义分页查询的条件 -->
+	<!-- 
+		定义分页查询的条件
+		精确匹配：<if test="rankName!=null"> rankName = #{rankName} </if>
+		模糊匹配：<if test="rankName!=null"> rankName like concat('%', #{rankName}, '%') </if> ，并且可以防SQL注入
+	-->
 	<sql id="pagingCondition">
-		<if test="rankName!=null"> rankName = #{rankName} </if>
+		<if test="rankName!=null"> rankName like concat('%', #{rankName}, '%') </if>
 	</sql>
-	<!-- 分页查询记录 -->
-	<select id="selectPagingData" parameterType="hashmap"
+	<!-- 
+	分页查询记录
+	注意：这里的com.songlou.model.RankSearchModel改成hashmap也是可以的，因为我定义了搜索模型，所以就没必要用hashmap了 
+	-->
+	<select id="selectPagingData" parameterType="com.songlou.model.RankSearchModel"
 		resultType="com.songlou.pojo.Rank">
 		SELECT
 		<include refid="pagingQueryField"></include>
@@ -37,7 +44,7 @@
 		limit ${(pageIndex-1)*pageSize}, #{pageSize}
 	</select>
 	<!-- 分页查询记录数 -->
-	<select id="selectPagingDataNumber" parameterType="hashmap" resultType="int">
+	<select id="selectPagingDataNumber" parameterType="com.songlou.model.RankSearchModel" resultType="int">
 		SELECT
 		COUNT(*)
 		FROM xin_rank

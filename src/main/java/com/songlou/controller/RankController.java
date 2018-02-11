@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.songlou.model.PagingModel;
+import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
 import com.songlou.service.RankService;
 
@@ -48,10 +48,9 @@ public class RankController {
 	 * 请求参数获取的几种方法 ：https://www.cnblogs.com/xiaoxi/p/5695783.html
 	 */
 	@RequestMapping(value = "/list", method=RequestMethod.POST)
-	public ModelAndView list(@RequestParam("pageIndex") int pageIndex){
-		int pageSize = 15;
-		
-		PagingModel<Rank> pagingModel = rankService.selectPagingData(pageIndex, pageSize);
+	public ModelAndView list(RankSearchModel searchModel){
+		searchModel.setPageSize(15);
+		PagingModel<Rank> pagingModel = rankService.selectPagingData(searchModel);
         ModelAndView mav = new ModelAndView("rank/list");
         mav.addObject("pagingModel", pagingModel);
         

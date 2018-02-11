@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.songlou.model.PagingModel;
+import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
 
 @Service("rankService")
@@ -30,19 +31,22 @@ public class RankServiceImpl implements RankService {
 	 * ∑÷“≥≤È—Ø
 	 */
 	@Override
-	public PagingModel<Rank> selectPagingData(int pageIndex, int pageSize) {
-		HashMap<String, Integer> hm = new HashMap<String, Integer>();
-		hm.put("pageIndex", pageIndex);
-		hm.put("pageSize", pageSize);
+	public PagingModel<Rank> selectPagingData(RankSearchModel searchModel) {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("pageIndex", searchModel.getPageIndex());
+		hm.put("pageSize", searchModel.getPageSize());
+		if(searchModel.getRankName() != null){
+			hm.put("rankName", searchModel.getRankName());
+		}
 		
 		PagingModel<Rank> pagingModel = new PagingModel<>();
 		List<Rank> ranks = sqlSessionTemplate.selectList("selectPagingData", hm);
 		int number = sqlSessionTemplate.selectOne("selectPagingDataNumber", hm);
 		pagingModel.setDatas(ranks);
 		pagingModel.setTotalRecord(number);
-		pagingModel.setTotalPage((int)Math.ceil(number / pageSize));
-		pagingModel.setPageIndex(pageIndex);
-		pagingModel.setPageSize(pageSize);
+		pagingModel.setTotalPage((int)Math.ceil(number / searchModel.getPageSize()));
+		pagingModel.setPageIndex(searchModel.getPageIndex());
+		pagingModel.setPageSize(searchModel.getPageSize());
 		
 		return pagingModel;
 	}

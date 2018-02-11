@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>我的</title>
+<title>权限管理</title>
 <!-- common css -->
 <%@ include file="/WEB-INF/views/commoncss.jsp"%>
 <!-- /common css -->
@@ -53,6 +53,22 @@
 									<div class="clearfix"></div>
 								</div>
 
+								
+								<div class="input-group" class="col-md-3" style="float:left;">
+									<button type="button" class="btn btn-info">新增</button>
+									<button type="button" class="btn btn-info">删除</button>
+								</div>								
+								
+								
+								<!-- 搜索框 -->
+								<div class="input-group" class="col-md-3" style="width:20%; float:right;">
+		                            <input type="text" name="key" id="key" class="form-control">
+		                            <span class="input-group-btn">
+										<button type="button" name="btnSearch" id="btnSearch" class="btn btn-primary">搜索</button>
+									</span>
+	                          	</div>
+
+
 								<div class="x_content">
 									<!-- 异步加载数据 -->
 									<div class="table-responsive"></div>
@@ -80,14 +96,23 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			setPage(1);
+			
+			$("#btnSearch").click(function(){
+				setPage(1);
+			});
 		});
 		
 		function setPage(pageIndex) {
 			//这里还要获取其它参数，目前仅页码，所以没有可写代码
+			var param = {
+				pageIndex: pageIndex,
+				rankName: $("#key").val()
+			};
 			$.ajax({
 			    type:"post",
 				url: "<%=request.getContextPath()%>/rank/list",
-				data : {pageIndex: pageIndex},
+				//data : {pageIndex: pageIndex, rankName: "管理员"},
+				data : param,
 				dataType : "html",
 				success : function(data) {
 					$(".table-responsive").html(data);

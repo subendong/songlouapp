@@ -6,9 +6,19 @@ package com.songlou.model;
  *
  */
 public class RankSearchModel {
-	private int pageSize;
-	private String rankName;
+	private int pageIndex;//当前页码
+	private int pageSize;//每页大小
+	private String rankName;//权限名称
 	
+	public int getPageIndex() {
+		if(pageIndex < 1){
+			pageIndex = 1;
+		}
+		return pageIndex;
+	}
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
+	}
 	public int getPageSize() {
 		return pageSize;
 	}
@@ -20,9 +30,5 @@ public class RankSearchModel {
 	}
 	public void setRankName(String rankName) {
 		this.rankName = rankName;
-	}
-	@Override
-	public String toString() {
-		return "RankSearchModel [pageSize=" + pageSize + ", rankName=" + rankName + "]";
 	}
 }
