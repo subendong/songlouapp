@@ -1,5 +1,7 @@
 package com.songlou.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,23 @@ public class RankController {
 	@Autowired
     private RankService rankService;
 
+	/**
+	 * 新增页面-视图
+	 * @return
+	 */
+	@RequestMapping("/add")
+	public ModelAndView add(){
+		List<Rank> ranks = rankService.selectAll();
+		ModelAndView mav = new ModelAndView("rank/add");
+		mav.addObject("ranks", ranks);
+        return mav;
+	}
+	
+	/**
+	 * 新增页面-保存
+	 * @param rank
+	 * @return
+	 */
 	@RequestMapping(value = "/add", method=RequestMethod.POST)
     public @ResponseBody String insert(Rank rank){
 /*		Rank rank = new Rank();
@@ -27,6 +46,9 @@ public class RankController {
 		rank.setLeftShow(1);
 		rank.setShowOrder(1);
 		rank.setDepth(1);*/
+		
+		//验证先不加，到时候用模型绑定的验证来处理
+		
 		
 		rankService.insert(rank);
 
@@ -40,16 +62,6 @@ public class RankController {
 	@RequestMapping("/index")
 	public ModelAndView index(){
 		ModelAndView mav = new ModelAndView("rank/index");
-        return mav;
-	}
-	
-	/**
-	 * 新增页面
-	 * @return
-	 */
-	@RequestMapping("/add")
-	public ModelAndView add(){
-		ModelAndView mav = new ModelAndView("rank/add");
         return mav;
 	}
 

@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.songlou.mapper.RankMapper">
-	<!-- 插入数据 -->
-	<insert id="insert" parameterType="com.songlou.pojo.Rank">
-		<selectKey keyProperty="id" resultType="int" order="AFTER">
-			SELECT
-			LAST_INSERT_ID()
-		</selectKey>
-		insert into xin_rank(parentId, rankName, controller, action, leftShow,
-		showOrder, depth)
-		values(#{parentId}, #{rankName}, #{controller},
-		#{action}, #{leftShow}, #{showOrder},
-		#{depth})
-	</insert>
-
 	<!-- 定义查询的字段 -->
 	<sql id="pagingQueryField">
 		id,rootId,parentId,rankName,controller,action,leftShow,showOrder,depth
@@ -26,6 +13,41 @@
 	<sql id="pagingCondition">
 		<if test="rankName!=null"> rankName like concat('%', #{rankName}, '%') </if>
 	</sql>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" parameterType="int" resultType="com.songlou.pojo.Rank">
+		SELECT 
+		<include refid="pagingQueryField"></include>
+		FROM xin_rank WHERE ID = #{id}
+	</select>
+	
+	<!-- 查找所有数据 -->
+	<select id="selectAll" resultType="com.songlou.pojo.Rank">
+		SELECT 
+		<include refid="pagingQueryField"></include>
+		FROM xin_rank
+	</select>
+	
+	<!-- 插入数据 -->
+	<insert id="insert" parameterType="com.songlou.pojo.Rank">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into xin_rank(parentId, rankName, controller, action, leftShow,
+		showOrder, depth)
+		values(#{parentId}, #{rankName}, #{controller},
+		#{action}, #{leftShow}, #{showOrder},
+		#{depth})
+	</insert>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.songlou.pojo.Rank">
+		update xin_rank 
+		set rootId=#{rootId}, parentId=#{parentId}, rankName=#{rankName}, controller=#{controller}, action=#{action}, leftShow=#{leftShow}, showOrder=#{showOrder},depth=#{depth} 
+		where id=#{id}
+	</update>
+	
 	<!-- 
 	分页查询记录
 	注意：这里的com.songlou.model.RankSearchModel改成hashmap也是可以的，因为我定义了搜索模型，所以就没必要用hashmap了 
@@ -43,6 +65,7 @@
 		<!-- 如果是sqlserver，demo:limit ${(pageIndex-1)*pageSize}, ${pageIndex*pageSize} -->
 		limit ${(pageIndex-1)*pageSize}, #{pageSize}
 	</select>
+	
 	<!-- 分页查询记录数 -->
 	<select id="selectPagingDataNumber" parameterType="com.songlou.model.RankSearchModel" resultType="int">
 		SELECT
@@ -54,5 +77,8 @@
 	</select>
 </mapper>
 
-<!-- 参考地址： http://blog.csdn.net/summer_yuxia/article/details/53171794 http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html 
-	https://www.cnblogs.com/xingyunblog/p/6243179.html -->
+<!-- 参考地址： 
+http://blog.csdn.net/summer_yuxia/article/details/53171794 Mybatis下mapper映射文件配置之insert、update、delete
+http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html Mapper XML 文件
+https://www.cnblogs.com/xingyunblog/p/6243179.html Java MyBatis 插入数据库返回主键
+-->

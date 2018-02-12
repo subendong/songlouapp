@@ -107,7 +107,7 @@
 			$("#btnAdd").click(function(){
 				layer.open({
 					type: 2,
-					title: '新增/编辑',
+					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
 					area: ['35%', '55%'],
@@ -117,7 +117,6 @@
 		});
 		
 		function setPage(pageIndex) {
-			//这里还要获取其它参数，目前仅页码，所以没有可写代码
 			var param = {
 				pageIndex: pageIndex,
 				rankName: $("#key").val()

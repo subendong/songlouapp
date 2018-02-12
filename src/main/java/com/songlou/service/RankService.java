@@ -1,5 +1,7 @@
 package com.songlou.service;
 
+import java.util.List;
+
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
@@ -17,9 +19,28 @@ public interface RankService {
 	public void insert(Rank rank);
 	
 	/**
+	 * 修改
+	 * @param rank
+	 */
+	public void update(Rank rank);
+	
+	/**
 	 * 分页查询
 	 * @param searchModel
 	 * @return
 	 */
 	public PagingModel<Rank> selectPagingData(RankSearchModel searchModel);
+	
+	/**
+	 * 根据ID查询
+	 * @param id
+	 * @return
+	 */
+	public Rank selectById(int id);
+	
+	/**
+	 * 查询所有数据
+	 * @return
+	 */
+	public List<Rank> selectAll();
 }
