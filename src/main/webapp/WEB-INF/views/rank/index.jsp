@@ -55,7 +55,7 @@
 
 								
 								<div class="input-group" class="col-md-3" style="float:left;">
-									<button type="button" class="btn btn-info">新增</button>
+									<button type="button" class="btn btn-info" id="btnAdd">新增</button>
 									<button type="button" class="btn btn-info">删除</button>
 								</div>								
 								
@@ -93,12 +93,26 @@
 	<%@ include file="/WEB-INF/views/commonjs.jsp"%>
 	<!-- /common js -->
 	<script src="<%=request.getContextPath()%>/js/jquery.pagination.js"></script>
+	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			setPage(1);
 			
+			//搜索按钮单击事件
 			$("#btnSearch").click(function(){
 				setPage(1);
+			});
+			
+			//新增按钮单击事件
+			$("#btnAdd").click(function(){
+				layer.open({
+					type: 2,
+					title: '新增/编辑',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['35%', '55%'],
+					content: 'add/' //iframe的url
+				});
 			});
 		});
 		
@@ -111,7 +125,6 @@
 			$.ajax({
 			    type:"post",
 				url: "<%=request.getContextPath()%>/rank/list",
-				//data : {pageIndex: pageIndex, rankName: "管理员"},
 				data : param,
 				dataType : "html",
 				success : function(data) {

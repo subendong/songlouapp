@@ -5,7 +5,7 @@ public class Rank {
 	private int rootId;//根ID
 	private int parentId;//父ID
 	private String rankName;//权限名称
-	private String control;//控制器名称
+	private String controller;//控制器名称
 	private String action;//action名称
 	private int leftShow;//是否在左边菜单栏显示
 	private int showOrder;//显示顺序
@@ -35,11 +35,11 @@ public class Rank {
 	public void setRankName(String rankName) {
 		this.rankName = rankName;
 	}
-	public String getControl() {
-		return control;
+	public String getController() {
+		return controller;
 	}
-	public void setControl(String control) {
-		this.control = control;
+	public void setController(String control) {
+		this.controller = control;
 	}
 	public String getAction() {
 		return action;
@@ -69,7 +69,7 @@ public class Rank {
 	@Override
 	public String toString() {
 		return "Rank [id=" + id + ", rootId=" + rootId + ", parentId=" + parentId + ", rankName=" + rankName
-				+ ", control=" + control + ", action=" + action + ", leftShow=" + leftShow + ", showOrder=" + showOrder
+				+ ", control=" + controller + ", action=" + action + ", leftShow=" + leftShow + ", showOrder=" + showOrder
 				+ ", depth=" + depth + "]";
 	}
 }

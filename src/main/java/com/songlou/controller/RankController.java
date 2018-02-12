@@ -17,16 +17,16 @@ public class RankController {
 	@Autowired
     private RankService rankService;
 
-	@RequestMapping("/insert")
-    public @ResponseBody String test(){
-		Rank rank = new Rank();
+	@RequestMapping(value = "/add", method=RequestMethod.POST)
+    public @ResponseBody String insert(Rank rank){
+/*		Rank rank = new Rank();
 		rank.setParentId(0);
 		rank.setRankName("≤‚ ‘");
-		rank.setControl("rank");
+		rank.setController("rank");
 		rank.setAction("insert");
 		rank.setLeftShow(1);
 		rank.setShowOrder(1);
-		rank.setDepth(1);
+		rank.setDepth(1);*/
 		
 		rankService.insert(rank);
 
@@ -40,6 +40,16 @@ public class RankController {
 	@RequestMapping("/index")
 	public ModelAndView index(){
 		ModelAndView mav = new ModelAndView("rank/index");
+        return mav;
+	}
+	
+	/**
+	 * –¬‘ˆ“≥√Ê
+	 * @return
+	 */
+	@RequestMapping("/add")
+	public ModelAndView add(){
+		ModelAndView mav = new ModelAndView("rank/add");
         return mav;
 	}
 

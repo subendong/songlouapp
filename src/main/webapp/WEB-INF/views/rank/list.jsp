@@ -44,7 +44,7 @@
 				</td>
 				<td class=" ">${rank.getId()}</td>
 				<td class=" ">${rank.getRankName()}</td>
-				<td class=" ">${rank.getControl()}</td>
+				<td class=" ">${rank.getController()}</td>
 				<td class=" ">${rank.getAction()}</td>
 				<td class=" ">${rank.getLeftShow()}</td>
 				<td class="a-right a-right ">${rank.getShowOrder()}</td>

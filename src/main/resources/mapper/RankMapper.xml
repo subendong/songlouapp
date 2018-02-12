@@ -7,16 +7,16 @@
 			SELECT
 			LAST_INSERT_ID()
 		</selectKey>
-		insert into xin_rank(parentId, rankName, control, action, leftShow,
+		insert into xin_rank(parentId, rankName, controller, action, leftShow,
 		showOrder, depth)
-		values(#{parentId}, #{rankName}, #{control},
+		values(#{parentId}, #{rankName}, #{controller},
 		#{action}, #{leftShow}, #{showOrder},
 		#{depth})
 	</insert>
 
 	<!-- 定义查询的字段 -->
 	<sql id="pagingQueryField">
-		id,rootId,parentId,rankName,control,action,leftShow,showOrder,depth
+		id,rootId,parentId,rankName,controller,action,leftShow,showOrder,depth
 	</sql>
 	<!-- 
 		定义分页查询的条件
