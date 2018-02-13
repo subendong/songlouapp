@@ -25,7 +25,7 @@
 	<select id="selectAll" resultType="com.songlou.pojo.Rank">
 		SELECT 
 		<include refid="pagingQueryField"></include>
-		FROM xin_rank
+		FROM xin_rank order by id desc
 	</select>
 	
 	<!-- 插入数据 -->
@@ -47,6 +47,14 @@
 		set rootId=#{rootId}, parentId=#{parentId}, rankName=#{rankName}, controller=#{controller}, action=#{action}, leftShow=#{leftShow}, showOrder=#{showOrder},depth=#{depth} 
 		where id=#{id}
 	</update>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="com.songlou.pojo.Rank">
+		delete from xin_rank
+		<where>
+			<if test="id!=null"> id = #{id} </if>
+		</where>
+	</delete>
 	
 	<!-- 
 	分页查询记录

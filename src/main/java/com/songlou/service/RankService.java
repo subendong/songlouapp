@@ -43,4 +43,10 @@ public interface RankService {
 	 * @return
 	 */
 	public List<Rank> selectAll();
+	
+	/**
+	 * É¾³ý
+	 * @param rank
+	 */
+	public void delete(String ids);
 }

@@ -12,7 +12,8 @@
 <!-- common css -->
 <%@ include file="/WEB-INF/views/commoncss.jsp"%>
 <!-- /common css -->
-<link href="<%=request.getContextPath()%>/css/pagination.css" rel="stylesheet" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/pagination.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -56,7 +57,7 @@
 								
 								<div class="input-group" class="col-md-3" style="float:left;">
 									<button type="button" class="btn btn-info" id="btnAdd">新增</button>
-									<button type="button" class="btn btn-info">删除</button>
+									<button type="button" class="btn btn-info" id="btnBatchDelete">批量删除</button>
 								</div>								
 								
 								
@@ -93,8 +94,15 @@
 	<%@ include file="/WEB-INF/views/commonjs.jsp"%>
 	<!-- /common js -->
 	<script src="<%=request.getContextPath()%>/js/jquery.pagination.js"></script>
+	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script type="text/javascript">
+		//操作按钮相关链接
+		var addUrl = "<%=request.getContextPath()%>/rank/add";
+		var editUrl = "<%=request.getContextPath()%>/rank/edit";
+		var listUrl = "<%=request.getContextPath()%>/rank/list";
+		var deleteUrl = "<%=request.getContextPath() %>/rank/delete";
+		
 		$(document).ready(function(){
 			setPage(1);
 			
@@ -111,11 +119,106 @@
 					shadeClose: true,
 					shade: 0.8,
 					area: ['35%', '55%'],
-					content: 'add/' //iframe的url
+					content: addUrl //iframe的url
+				});
+			});
+			
+			//修改链接单击事件
+			$(".table-responsive").on("click", "table tr td .aEdit", function(){
+				layer.open({
+					type: 2,
+					title: '新增/修改',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['35%', '55%'],
+					content: editUrl + "?id=" + $(this).attr("rankId") //iframe的url
+				});
+			});
+			
+			//全选事件
+			$(".table-responsive").on('ifChecked ifUnchecked', "#check-all", function(event){ //ifCreated 事件应该在插件初始化之前绑定 
+				$(".table-responsive input[name='id']").iCheck(event.type == 'ifChecked' ? 'check' : 'uncheck');  
+			});
+			
+			//删除事件
+			$(".table-responsive").on("click", "table tr td .aDelete", function(){
+				var ids = $(this).attr("rankId");
+	 		 	layer.confirm("确定删除？", {btn: ["确定","取消"]}, function(){
+	 		 		//确定删除，需要处理的业务逻辑
+ 					ajaxDelete(ids);
+				}, 
+				function(){
+					//取消删除，do nothing
+				});
+				//下面这个效果也不错，别删啊，可以试试
+				/*layer.msg("确定删除？", {
+					time: 0, //不自动关闭
+					btn: ["确定","取消"],
+					yes: function(index){
+						alert("yes");
+					}
+				});*/
+			});
+			
+			//批量删除按钮单击事件
+			$("#btnBatchDelete").click(function(){
+				var ids = getIds();
+				if (ids == "") {
+                    layer.tips('请最少选择一条记录', '#btnBatchDelete', {
+                        tips: [1, '#f33']
+                    });
+                    return false;
+                }
+				
+				layer.confirm("确定删除？", {btn: ["确定","取消"]}, function(){
+	 		 		//确定删除，需要处理的业务逻辑
+ 					ajaxDelete(ids);
+				}, 
+				function(){
+					//取消删除，do nothing
 				});
 			});
 		});
 		
+		//异步删除
+		function ajaxDelete(ids){
+			var param = {
+				ids : ids	
+			};
+			$.ajax({
+			    type:"post",
+				url: deleteUrl,
+				data : param,
+				dataType : "text",
+				success : function(data) {
+					layer.msg("删除成功", {time: 1000},function(){
+						//删除成功之后，重新加载当前页数据
+						var pageIndex = $("#pageIndex").val();
+						setPage(pageIndex);
+					});
+                    layer.closeAll('loading');
+				}
+			});
+		}
+		
+		//获取选中复选框的值
+        function getIds() {
+            var ids = "";
+            $("input[name='id']").each(function() {
+                var checked = $(this).prop("checked");
+                if (checked) {
+                    ids += $(this).val() + ",";
+                }
+            });
+
+            if (ids.length > 0) {
+                ids = ids.substr(0, ids.length - 1);
+            }
+
+            return ids;
+        }
+		
+		//分页处理
 		function setPage(pageIndex) {
 			var param = {
 				pageIndex: pageIndex,
@@ -123,11 +226,18 @@
 			};
 			$.ajax({
 			    type:"post",
-				url: "<%=request.getContextPath()%>/rank/list",
+				url: listUrl,
 				data : param,
 				dataType : "html",
 				success : function(data) {
 					$(".table-responsive").html(data);
+					
+					//用icheck美化checkbox
+					$("input[type='checkbox']").iCheck({
+					    checkboxClass: 'icheckbox_minimal-grey',
+					    radioClass: 'iradio_minimal-grey',
+					    increaseArea: '20%'
+					});
 					
 					//处理分页效果
 					var totalRecord = $("#totalRecord").val();

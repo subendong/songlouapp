@@ -2,6 +2,7 @@ package com.songlou.controller;
 
 import java.util.List;
 
+import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,19 +21,21 @@ public class RankController {
     private RankService rankService;
 
 	/**
-	 * 新增页面-视图
+	 * 新增-视图
 	 * @return
 	 */
 	@RequestMapping("/add")
 	public ModelAndView add(){
+		Rank rank = new Rank();
 		List<Rank> ranks = rankService.selectAll();
-		ModelAndView mav = new ModelAndView("rank/add");
+		ModelAndView mav = new ModelAndView("rank/edit");
+		mav.addObject("model", rank);
 		mav.addObject("ranks", ranks);
         return mav;
 	}
 	
 	/**
-	 * 新增页面-保存
+	 * 新增-保存
 	 * @param rank
 	 * @return
 	 */
@@ -54,9 +57,47 @@ public class RankController {
 
     	return Integer.toString(rank.getId());
     }
+
+	/**
+	 * 修改-视图
+	 * @return
+	 */
+	@RequestMapping("/edit")
+	public ModelAndView edit(int id){
+		Rank rank = rankService.selectById(id);
+		List<Rank> ranks = rankService.selectAll();
+		
+		ModelAndView mav = new ModelAndView("rank/edit");
+		mav.addObject("model", rank);
+		mav.addObject("ranks", ranks);
+        return mav;
+	}
 	
 	/**
-	 * 管理首页
+	 * 修改-保存
+	 * @param rank
+	 * @return
+	 */
+	@RequestMapping(value = "/edit", method=RequestMethod.POST)
+    public @ResponseBody String edit(Rank rank){
+		rankService.update(rank);
+    	return Integer.toString(rank.getId());
+    }
+	
+	/**
+	 * 删除
+	 * @param rank
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	public @ResponseBody String delete(String ids){
+		rankService.delete(ids);
+		
+		return "删除成功";
+	}
+	
+	/**
+	 * 列表页
 	 * @return
 	 */
 	@RequestMapping("/index")

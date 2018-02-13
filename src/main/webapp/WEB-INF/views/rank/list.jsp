@@ -40,7 +40,7 @@
 			%>
 			<tr class="<%=trClass%> pointer">
 				<td class="a-center ">
-					<input type="checkbox" class="flat" name="table_records" />
+					<input type="checkbox" class="flat" name="id" value="${rank.getId()}" />
 				</td>
 				<td class=" ">${rank.getId()}</td>
 				<td class=" ">${rank.getRankName()}</td>
@@ -48,7 +48,10 @@
 				<td class=" ">${rank.getAction()}</td>
 				<td class=" ">${rank.getLeftShow()}</td>
 				<td class="a-right a-right ">${rank.getShowOrder()}</td>
-				<td class=" last"><a href="#">删除</a></td>
+				<td class=" last">
+					<a href="#" class="aEdit" rankId="${rank.getId()}">修改</a>
+					<a href="#" class="aDelete" rankId="${rank.getId()}">删除</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -57,3 +60,4 @@
 <input type="hidden" name="totalPage" id="totalPage" value="${pagingModel.getTotalPage()}" />
 <input type="hidden" name="pageIndex" id="pageIndex" value="${pagingModel.getPageIndex()}" />
 <input type="hidden" name="pageSize" id="pageSize" value="${pagingModel.getPageSize()}" />
+<input type="hidden" name="deleteUrl" id="deleteUrl" value="<%=request.getContextPath() %>/rank/delete" />

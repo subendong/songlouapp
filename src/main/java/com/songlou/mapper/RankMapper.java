@@ -47,4 +47,10 @@ public interface RankMapper {
 	 * @return
 	 */
 	public List<Rank> selectAll();
+	
+	/**
+	 * É¾³ý
+	 * @param rank
+	 */
+	public void delete(Rank rank);
 }

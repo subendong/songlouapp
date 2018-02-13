@@ -21,31 +21,31 @@ public class RankServiceImpl implements RankService {
 	 */
 	@Override
 	public void insert(Rank rank) {
-		//调用mybatis插件往数据库插入数据
+		// 调用mybatis插件往数据库插入数据
 		sqlSessionTemplate.insert("insert", rank);
-		//根据parentId，查找出父类
+		// 根据parentId，查找出父类
 		Rank parentRank = selectById(rank.getParentId());
-		//重新跟rootId和depth赋值
+		// 重新跟rootId和depth赋值
 		int rootId = rank.getParentId() == 0 ? rank.getId() : parentRank.getRootId();
 		int depth = rank.getParentId() == 0 ? 1 : parentRank.getDepth() + 1;
 		rank.setRootId(rootId);
 		rank.setDepth(depth);
 		sqlSessionTemplate.update("update", rank);
 	}
-	
+
 	/**
 	 * 修改
 	 */
 	@Override
-	public void update(Rank rank){
-		//根据parentId，查找出父类
+	public void update(Rank rank) {
+		// 根据parentId，查找出父类
 		Rank parentRank = selectById(rank.getParentId());
-		//重新跟rootId和depth赋值
+		// 重新跟rootId和depth赋值
 		int rootId = rank.getParentId() == 0 ? rank.getId() : parentRank.getRootId();
 		int depth = rank.getParentId() == 0 ? 1 : parentRank.getDepth() + 1;
 		rank.setRootId(rootId);
 		rank.setDepth(depth);
-		//更新数据
+		// 更新数据
 		sqlSessionTemplate.update("update", rank);
 	}
 
@@ -54,27 +54,26 @@ public class RankServiceImpl implements RankService {
 	 */
 	@Override
 	public PagingModel<Rank> selectPagingData(RankSearchModel searchModel) {
-		//用HashMap也行
-/*		HashMap<String, Object> hm = new HashMap<String, Object>();
-		hm.put("pageIndex", searchModel.getPageIndex());
-		hm.put("pageSize", searchModel.getPageSize());
-		if(searchModel.getRankName() != null){
-			hm.put("rankName", searchModel.getRankName());
-		}*/
-		
+		// 用HashMap也行
+		/*
+		 * HashMap<String, Object> hm = new HashMap<String, Object>();
+		 * hm.put("pageIndex", searchModel.getPageIndex()); hm.put("pageSize",
+		 * searchModel.getPageSize()); if(searchModel.getRankName() != null){
+		 * hm.put("rankName", searchModel.getRankName()); }
+		 */
+
 		PagingModel<Rank> pagingModel = new PagingModel<Rank>();
 		List<Rank> ranks = sqlSessionTemplate.selectList("selectPagingData", searchModel);
 		int number = sqlSessionTemplate.selectOne("selectPagingDataNumber", searchModel);
 		pagingModel.setDatas(ranks);
 		pagingModel.setTotalRecord(number);
-		pagingModel.setTotalPage((int)Math.ceil(number / searchModel.getPageSize()));
+		pagingModel.setTotalPage((int) Math.ceil(number / searchModel.getPageSize()));
 		pagingModel.setPageIndex(searchModel.getPageIndex());
 		pagingModel.setPageSize(searchModel.getPageSize());
-		
+
 		return pagingModel;
 	}
 
-	
 	/**
 	 * 根据ID查询
 	 */
@@ -83,12 +82,37 @@ public class RankServiceImpl implements RankService {
 		Rank rank = sqlSessionTemplate.selectOne("selectById", id);
 		return rank;
 	}
-	
+
 	/**
 	 * 查询所有数据
 	 */
-	public List<Rank> selectAll(){
+	@Override
+	public List<Rank> selectAll() {
 		List<Rank> ranks = sqlSessionTemplate.selectList("selectAll");
 		return ranks;
+	}
+
+	/**
+	 * 删除
+	 * 
+	 * @param rank
+	 */
+	@Override
+	public void delete(String ids) {
+		String[] arr = ids.split(",");
+		Rank rank = new Rank();
+		int id = 0;
+		int result = 0;
+		if (arr.length == 1) {
+			id = Integer.parseInt(arr[0]);
+			rank.setId(id);
+			result = sqlSessionTemplate.delete("delete", rank);
+		} else if (arr.length > 1) {
+			for (int i = 0; i < arr.length; i++) {
+				id = Integer.parseInt(arr[i]);
+				rank.setId(id);
+				result = sqlSessionTemplate.delete("delete", rank);
+			}
+		}
 	}
 }
