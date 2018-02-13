@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<title>新增/修改权限</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>权限管理</title>
 <!-- common css -->
 <%@ include file="/WEB-INF/views/commoncss.jsp"%>
 <!-- /common css -->
@@ -91,7 +91,7 @@
 										<div class="form-group">
 											<label for="leftShow"
 												class="control-label col-md-3 col-sm-3 col-xs-2">是否左边显示</label>
-											<div class="col-md-6 col-sm-6 col-xs-10">
+											<div class="col-md-6 col-sm-6 col-xs-10" style="margin-top:6px;">
 												<input type="checkbox" name="leftShow" id="leftShow" value="1" />
 											</div>
 										</div>

@@ -25,7 +25,7 @@
 	<select id="selectAll" resultType="com.songlou.pojo.Rank">
 		SELECT 
 		<include refid="pagingQueryField"></include>
-		FROM xin_rank order by id desc
+		FROM xin_rank
 	</select>
 	
 	<!-- 插入数据 -->
@@ -68,6 +68,7 @@
 		<where>
 			<include refid="pagingCondition" />
 		</where>
+		order by id desc
 		<!-- limit #{start},#{number} -->
 		<!-- 注意上面这行分页方法是在程序处理好后分页的起始位置 ，而且是mysql的写法 -->
 		<!-- 如果是sqlserver，demo:limit ${(pageIndex-1)*pageSize}, ${pageIndex*pageSize} -->
