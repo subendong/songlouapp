@@ -19,12 +19,6 @@
 			<th class="column-title no-link last"
 				style="display: table-cell;"><span class="nobr">操作</span>
 			</th>
-			<th class="bulk-actions" colspan="7" style="display: none;">
-				<a class="antoo" style="color: #fff; font-weight: 500;">Bulk
-					Actions ( <span class="action-cnt">1 Records
-						Selected</span> ) <i class="fa fa-chevron-down"></i>
-			</a>
-			</th>
 		</tr>
 	</thead>
 

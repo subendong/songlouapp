@@ -99,7 +99,7 @@
 										<div class="form-group">
 											<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 												<button type="submit" id="btnSubmit" class="btn btn-success">保存</button>
-												<button type="button" id="btnTest" class="btn btn-default">取消</button>
+												<button type="button" id="btnCancel" class="btn btn-default">取消</button>
 											</div>
 										</div>
 
@@ -133,7 +133,7 @@
 			$("#leftShow").iCheck($("#hiddenLeftShow").val() == 1 ? "check" : "uncheck");
 			
 			//测试主动触发关闭按钮的单击事件
-			$("#btnTest").click(function() {
+			$("#btnCancel").click(function() {
 				//$(".layui-layer-close", parent.document).trigger("click");
 				parent.window.$('.layui-layer-close').trigger('click')
 			});
@@ -158,8 +158,6 @@
 					showOrder: $("#showOrder").val(),
 					leftShow: $("#leftShow").is(":checked") ? 1 : 0
 				};
-				
-				var url
 
 				$.ajax({
 				    type:"post",

@@ -2,7 +2,6 @@ package com.songlou.controller;
 
 import java.util.List;
 
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,11 @@ import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
 import com.songlou.service.RankService;
 
+/**
+ * http://localhost:8080/songlouapp/rank/index
+ * @author sbd04462
+ *
+ */
 @Controller
 @RequestMapping("/rank")
 public class RankController {
@@ -66,7 +70,6 @@ public class RankController {
 	public ModelAndView edit(int id){
 		Rank rank = rankService.selectById(id);
 		List<Rank> ranks = rankService.selectAll();
-		
 		ModelAndView mav = new ModelAndView("rank/edit");
 		mav.addObject("model", rank);
 		mav.addObject("ranks", ranks);

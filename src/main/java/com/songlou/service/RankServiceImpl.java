@@ -22,7 +22,7 @@ public class RankServiceImpl implements RankService {
 	@Override
 	public void insert(Rank rank) {
 		// 调用mybatis插件往数据库插入数据
-		sqlSessionTemplate.insert("insert", rank);
+		sqlSessionTemplate.insert("com.songlou.mapper.RankMapper.insert", rank);
 		// 根据parentId，查找出父类
 		Rank parentRank = selectById(rank.getParentId());
 		// 重新跟rootId和depth赋值
@@ -30,7 +30,7 @@ public class RankServiceImpl implements RankService {
 		int depth = rank.getParentId() == 0 ? 1 : parentRank.getDepth() + 1;
 		rank.setRootId(rootId);
 		rank.setDepth(depth);
-		sqlSessionTemplate.update("update", rank);
+		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.update", rank);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class RankServiceImpl implements RankService {
 		rank.setRootId(rootId);
 		rank.setDepth(depth);
 		// 更新数据
-		sqlSessionTemplate.update("update", rank);
+		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.update", rank);
 	}
 
 	/**
@@ -63,11 +63,11 @@ public class RankServiceImpl implements RankService {
 		 */
 
 		PagingModel<Rank> pagingModel = new PagingModel<Rank>();
-		List<Rank> ranks = sqlSessionTemplate.selectList("selectPagingData", searchModel);
-		int number = sqlSessionTemplate.selectOne("selectPagingDataNumber", searchModel);
+		List<Rank> ranks = sqlSessionTemplate.selectList("com.songlou.mapper.RankMapper.selectPagingData", searchModel);
+		int number = sqlSessionTemplate.selectOne("com.songlou.mapper.RankMapper.selectPagingDataNumber", searchModel);
 		pagingModel.setDatas(ranks);
 		pagingModel.setTotalRecord(number);
-		pagingModel.setTotalPage((int) Math.ceil(number / searchModel.getPageSize()));
+		pagingModel.setTotalPage((int) Math.ceil((double)number / searchModel.getPageSize()));
 		pagingModel.setPageIndex(searchModel.getPageIndex());
 		pagingModel.setPageSize(searchModel.getPageSize());
 
@@ -79,7 +79,7 @@ public class RankServiceImpl implements RankService {
 	 */
 	@Override
 	public Rank selectById(int id) {
-		Rank rank = sqlSessionTemplate.selectOne("selectById", id);
+		Rank rank = sqlSessionTemplate.selectOne("com.songlou.mapper.RankMapper.selectById", id);
 		return rank;
 	}
 
@@ -88,7 +88,7 @@ public class RankServiceImpl implements RankService {
 	 */
 	@Override
 	public List<Rank> selectAll() {
-		List<Rank> ranks = sqlSessionTemplate.selectList("selectAll");
+		List<Rank> ranks = sqlSessionTemplate.selectList("com.songlou.mapper.RankMapper.selectAll");
 		return ranks;
 	}
 
@@ -106,12 +106,12 @@ public class RankServiceImpl implements RankService {
 		if (arr.length == 1) {
 			id = Integer.parseInt(arr[0]);
 			rank.setId(id);
-			result = sqlSessionTemplate.delete("delete", rank);
+			result = sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
 		} else if (arr.length > 1) {
 			for (int i = 0; i < arr.length; i++) {
 				id = Integer.parseInt(arr[i]);
 				rank.setId(id);
-				result = sqlSessionTemplate.delete("delete", rank);
+				result = sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
 			}
 		}
 	}

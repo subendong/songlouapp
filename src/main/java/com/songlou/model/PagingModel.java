@@ -1,7 +1,6 @@
 package com.songlou.model;
 
 import java.util.List;
-import java.util.Map;
 
 /*
  * ·ÖÒ³Àà

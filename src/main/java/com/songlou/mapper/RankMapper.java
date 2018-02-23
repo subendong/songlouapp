@@ -1,7 +1,7 @@
 package com.songlou.mapper;
 
-import java.util.HashMap;
 import java.util.List;
+import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
 /**
  * 权限
@@ -23,17 +23,17 @@ public interface RankMapper {
 	
 	/**
 	 * 分页查询
-	 * @param hashmap
+	 * @param searchModel
 	 * @return
 	 */
-	public List<Rank> selectPagingData(HashMap<?, ?> hashmap);
+	public List<Rank> selectPagingData(RankSearchModel searchModel);
 	
 	/**
 	 * 分页查询满足条件的总数
-	 * @param hashmap
+	 * @param searchModel
 	 * @return
 	 */
-	public int selectPagingDataNumber(HashMap<?, ?> hashmap);
+	public int selectPagingDataNumber(RankSearchModel searchModel);
 	
 	/**
 	 * 根据ID查询

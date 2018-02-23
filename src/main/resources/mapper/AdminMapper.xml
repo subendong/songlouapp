@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songlou.mapper.AdminMapper">
+	<!-- 定义查询的字段 -->
+	<sql id="pagingQueryField">
+		id,username,password
+	</sql>
+	<!-- 定义分页查询的条件 -->
+	<sql id="pagingCondition">
+		<if test="username!=null"> username like concat('%', #{username}, '%') </if>
+	</sql>
+	
+	<!-- 分页查询记录 -->
+	<select id="selectPagingData" parameterType="com.songlou.model.AdminSearchModel" resultType="com.songlou.pojo.Admin">
+		SELECT
+		<include refid="pagingQueryField"></include>
+		FROM xin_admin
+		<where>
+			<include refid="pagingCondition" />
+		</where>
+		order by id desc
+		limit ${(pageIndex-1)*pageSize}, #{pageSize}
+	</select>
+	
+	<!-- 分页查询记录数 -->
+	<select id="selectPagingDataNumber" parameterType="com.songlou.model.AdminSearchModel" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM xin_admin
+		<where>
+			<include refid="pagingCondition" />
+		</where>
+	</select>
+	
+	<!-- 插入数据 -->
+	<insert id="insert" parameterType="com.songlou.pojo.Admin">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into xin_admin(username, password)
+		values(#{username}, #{password})
+	</insert>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="com.songlou.pojo.Admin">
+		update xin_admin
+		set username=#{username}, password=#{password}
+		where id=#{id}
+	</update>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectById" parameterType="int" resultType="com.songlou.pojo.Admin">
+		SELECT 
+		<include refid="pagingQueryField"></include>
+		FROM xin_admin WHERE ID = #{id}
+	</select>
+</mapper>
