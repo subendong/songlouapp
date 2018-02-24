@@ -142,7 +142,7 @@
 			
 			//删除事件
 			$(".table-responsive").on("click", "table tr td .aDelete", function(){
-				var ids = $(this).attr("rankId");
+				var ids = $(this).attr("adminId");
 	 		 	layer.confirm("确定删除？", {btn: ["确定","取消"]}, function(){
 	 		 		//确定删除，需要处理的业务逻辑
  					ajaxDelete(ids);

@@ -55,4 +55,21 @@
 		<include refid="pagingQueryField"></include>
 		FROM xin_admin WHERE ID = #{id}
 	</select>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="com.songlou.pojo.Admin">
+		delete from xin_admin
+		<where>
+			<if test="id!=null"> id = #{id} </if>
+		</where>
+	</delete>
+	
+	<!-- 批量删除数据 -->
+	<!-- 注意这里的<foreach>里面的collection，当为list的时候，mapper里面要传list，当为array的时候，mapper里面可传array，也可传字符串 -->
+	<delete id="batchDelete" parameterType="java.lang.String">
+          DELETE FROM xin_admin WHERE id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
 </mapper>

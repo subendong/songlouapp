@@ -41,4 +41,16 @@ public interface AdminMapper {
 	 * @return
 	 */
 	public Admin selectById(int id);
+	
+	/**
+	 * É¾³ı
+	 * @param admin
+	 */
+	public void delete(Admin admin);
+	
+	/**
+	 * ÅúÁ¿É¾³ı
+	 * @param ids
+	 */
+	public void batchDelete(String ids);
 }

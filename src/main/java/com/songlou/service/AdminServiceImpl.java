@@ -1,5 +1,6 @@
 package com.songlou.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,62 @@ public class AdminServiceImpl implements AdminService {
 	public Admin selectById(int id) {
 		Admin admin = sqlSessionTemplate.selectOne("com.songlou.mapper.AdminMapper.selectById", id);
 		return admin;
+	}
+
+	/**
+	 * 删除
+	 * 此方法需要多次访问数据库，一条一条的删除
+	 */
+	@Override
+	public void delete(String ids) {
+		String[] arr = ids.split(",");
+		Admin admin = new Admin();
+		int id = 0;
+		if (arr.length == 1) {
+			id = Integer.parseInt(arr[0]);
+			admin.setId(id);
+			sqlSessionTemplate.delete("com.songlou.mapper.AdminMapper.delete", admin);
+		} else if (arr.length > 1) {
+			for (int i = 0; i < arr.length; i++) {
+				id = Integer.parseInt(arr[i]);
+				admin.setId(id);
+				sqlSessionTemplate.delete("com.songlou.mapper.AdminMapper.delete", admin);
+			}
+		}
+	}
+
+	/**
+	 * 批量删除
+	 * 此方法根据id集合，一次性删除
+	 * 对id进行了重新处理，不能用字符串，要转换成整数，目的是为了安全，因为删除的时候用了in
+	 */
+	@Override
+	public void batchDelete(String ids) {
+		/*String[] arr = ids.split(",");
+		List<Integer> lists = new ArrayList<Integer>();
+		
+		int id = 0;
+		if (arr.length == 1) {
+			id = Integer.parseInt(arr[0]);
+			lists.add(id);
+		}
+		else if (arr.length > 1) {
+			for (int i = 0; i < arr.length; i++) {
+				id = Integer.parseInt(arr[i]);
+				lists.add(id);
+			}
+		}
+		
+		sqlSessionTemplate.delete("com.songlou.mapper.AdminMapper.batchDelete", lists);*/
+		
+		String[] arr = ids.split(",");
+		List<Integer> lists = new ArrayList<Integer>();
+		
+		for (int i = 0; i < arr.length; i++) {
+			int id = Integer.parseInt(arr[i]);
+			lists.add(id);
+		}
+		
+		sqlSessionTemplate.delete("com.songlou.mapper.AdminMapper.batchDelete", lists);
 	}
 }

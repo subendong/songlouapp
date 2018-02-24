@@ -1,7 +1,5 @@
 package com.songlou.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;
-import com.songlou.pojo.Rank;
 import com.songlou.service.AdminService;
 
 /**
@@ -41,6 +38,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value = "/list", method=RequestMethod.POST)
 	public ModelAndView index(AdminSearchModel searchModel){
+		searchModel.setUsername(searchModel.getUsername().trim());
 		searchModel.setPageSize(15);
 		PagingModel<Admin> pagingModel = adminService.selectPagingData(searchModel);
         ModelAndView mav = new ModelAndView("admin/list");
@@ -94,4 +92,16 @@ public class AdminController {
 		adminService.update(admin);
     	return Integer.toString(admin.getId());
     }
+	
+	/**
+	 * É¾³ý
+	 * @param rank
+	 * @return
+	 */
+	@RequestMapping("/delete")
+	public @ResponseBody String delete(String ids){
+		//adminService.delete(ids);
+		adminService.batchDelete(ids);
+		return "É¾³ý³É¹¦";
+	}
 }

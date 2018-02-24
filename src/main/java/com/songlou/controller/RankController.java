@@ -115,6 +115,7 @@ public class RankController {
 	 */
 	@RequestMapping(value = "/list", method=RequestMethod.POST)
 	public ModelAndView list(RankSearchModel searchModel){
+		searchModel.setRankName(searchModel.getRankName().trim());
 		searchModel.setPageSize(15);
 		PagingModel<Rank> pagingModel = rankService.selectPagingData(searchModel);
         ModelAndView mav = new ModelAndView("rank/list");

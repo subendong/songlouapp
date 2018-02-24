@@ -102,16 +102,15 @@ public class RankServiceImpl implements RankService {
 		String[] arr = ids.split(",");
 		Rank rank = new Rank();
 		int id = 0;
-		int result = 0;
 		if (arr.length == 1) {
 			id = Integer.parseInt(arr[0]);
 			rank.setId(id);
-			result = sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
+			sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
 		} else if (arr.length > 1) {
 			for (int i = 0; i < arr.length; i++) {
 				id = Integer.parseInt(arr[i]);
 				rank.setId(id);
-				result = sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
+				sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
 			}
 		}
 	}

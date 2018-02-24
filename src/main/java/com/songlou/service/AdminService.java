@@ -35,4 +35,16 @@ public interface AdminService {
 	 * @return
 	 */
 	public Admin selectById(int id);
+	
+	/**
+	 * É¾³ý
+	 * @param admin
+	 */
+	public void delete(String ids);
+	
+	/**
+	 * ÅúÁ¿É¾³ý
+	 * @param ids
+	 */
+	public void batchDelete(String ids);
 }
