@@ -58,7 +58,7 @@
 												class="required">*</span></label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
 												<div id="zyupload" class="zyupload"></div>
-												<input type="hidden" name="photo" id="photo" value=""
+												<input type="text" name="photo" id="photo" value=""
 													required="required" class="form-control col-md-7 col-xs-12" />
 											</div>
 										</div>
@@ -95,6 +95,11 @@
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script src="<%=request.getContextPath()%>/js/zyupload/zyupload-1.0.0.min.js"></script>
 	<script type="text/javascript">
+		//不加这段代码会报错：Uncaught TypeError: Cannot read property 'msie' of undefined
+		//参考地址：http://blchen.com/jquery-can-not-read-property-msie-of-the-undefined-error-solution/
+		jQuery.browser={};(function(){jQuery.browser.msie=false; jQuery.browser.version=0;if(navigator.userAgent.match(/MSIE ([0-9]+)./)){ jQuery.browser.msie=true;jQuery.browser.version=RegExp.$1;}})();
+		
+		//上传地址
 		var uploadUrl = "<%=request.getContextPath()%>/upload/index";
 		$(document).ready(
 				function() {
@@ -129,6 +134,7 @@
 							e.preventDefault();
 						});
 					
+					var images = new Array();
 					// 初始化插件
 					$("#zyupload").zyUpload({
 						width            :   "100%",                  // 宽度
@@ -138,7 +144,7 @@
 						url              :   uploadUrl,		          // 上传文件的路径
 						fileType         :   ["jpg","png","js","exe","txt"],// 上传文件的类型
 						fileSize         :   51200000,                // 上传文件的大小
-						multiple         :   false,                   // 是否可以多个文件上传
+						multiple         :   true,                    // 是否可以多个文件上传
 						dragDrop         :   true,                    // 是否可以拖动上传文件
 						tailor           :   true,                    // 是否可以裁剪图片
 						del              :   true,                    // 是否可以删除文件
@@ -153,15 +159,17 @@
 							console.info(file.name);
 						},
 					 	onSuccess: function(file, response){          // 文件上传成功的回调方法
-							console.info("此文件上传成功：");
+							/* console.info("此文件上传成功：");
 							console.info(file.name);
 							console.info("此文件上传到服务器地址：");
 							console.info(response);
-							$("#uploadInf").append("<p>上传成功，文件地址是：" + response + "</p>");
+							$("#uploadInf").append("<p>上传成功，文件地址是：" + response + "</p>"); */
+							var json = $.parseJSON(response);
+							//$("#photo").val(json.data.replace(/\\/g,"\/"));
+							images.push(json.data.replace(/\\/g,"\/"));
+							$("#photo").val(images.join(";"));
+							//$("#uploadInf").append("<p>上传成功，文件地址是：" + json.data.replace(/\\/g,"\/") + "</p>");
 						},
-						/* onSuccess: function(data){
-							$("#uploadInf").append("<p>上传成功，文件地址是：" + data.message + "</p>");
-						}, */
 						onFailure: function(file, response){          // 文件上传失败的回调方法
 							console.info("此文件上传失败：");
 							console.info(file.name);

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.songlou.common.ResultHelper;
 
@@ -15,27 +16,30 @@ public class UploadController {
 	/**
 	 * 上传
 	 * 要记得在spring-mvc.xml中配置上传组件的bean:multipartResolver
+	 * 在做这个功能的时候，图片上传成功了，但是始终提示404，最终原因是返回的时候要加上注解：@ResponseBody
 	 * @param file
 	 * @return
 	 */
 	@RequestMapping(value = "/index", method=RequestMethod.POST)
+	@ResponseBody
 	public ResultHelper upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception{			
 		//如果文件不为空，写入上传路径
         if(!file.isEmpty()) {
             //上传文件路径
-        	String path = request.getSession().getServletContext().getRealPath("/upload");//"D:\\workspace\\songlouapp\\src\\main\\webapp\\WEB-INF\\images\\upload";//"src/main/webapp/WEB-INF/images/upload/";
+        	String basePath = request.getSession().getServletContext().getRealPath("/");//"D:\\workspace\\songlouapp\\src\\main\\webapp\\WEB-INF\\images\\upload";//"src/main/webapp/WEB-INF/images/upload/";
+        	//存放文件的目录
+        	String saveFolder = "upload";
             //上传文件名
-            String filename = file.getOriginalFilename();
-            File filepath = new File(path,filename);
+            String fileName = file.getOriginalFilename();
+            File filePath = new File(basePath + File.separator + saveFolder, fileName);
             //判断路径是否存在，如果不存在就创建一个
-            if (!filepath.getParentFile().exists()) { 
-                filepath.getParentFile().mkdirs();
+            if (!filePath.getParentFile().exists()) { 
+            	filePath.getParentFile().mkdirs();
             }
             //将上传文件保存到一个目标文件当中
-            String fileasdfasdf = path + File.separator + filename;
-            file.transferTo(new File(fileasdfasdf));
-            System.out.println("上传成功");
-            return new ResultHelper(0, true, "success", null);
+            String relativePath = File.separator + saveFolder + File.separator + fileName;
+            file.transferTo(new File(basePath, relativePath));
+            return new ResultHelper(0, true, "success", relativePath);
         } else {
             return new ResultHelper(1, false, "error", null);
         }
