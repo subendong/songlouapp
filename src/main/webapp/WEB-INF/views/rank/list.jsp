@@ -4,19 +4,19 @@
 <table class="table table-striped jambo_table bulk_action">
 	<thead>
 		<tr class="headings">
-			<th class="column-title" >
+			<th class="column-title col-md-1">
 				<input type="checkbox" id="check-all" class="flat" />
 			</th>
-			<th class="column-title" style="display: table-cell;">ID
+			<th class="column-title col-md-1" style="display: table-cell;">ID
 			</th>
-			<th class="column-title" style="display: table-cell;">权限名称</th>
-			<th class="column-title" style="display: table-cell;">模块
+			<th class="column-title col-md-3" style="display: table-cell;">权限名称</th>
+			<th class="column-title col-md-2" style="display: table-cell;">模块
 			</th>
-			<th class="column-title" style="display: table-cell;">操作</th>
-			<th class="column-title" style="display: table-cell;">菜单栏显示</th>
-			<th class="column-title" style="display: table-cell;">排序
+			<th class="column-title col-md-2" style="display: table-cell;">操作</th>
+			<th class="column-title col-md-1" style="display: table-cell;">菜单栏显示</th>
+			<th class="column-title col-md-1" style="display: table-cell;">排序
 			</th>
-			<th class="column-title no-link last"
+			<th class="column-title no-link last col-md-1"
 				style="display: table-cell;"><span class="nobr">操作</span>
 			</th>
 		</tr>

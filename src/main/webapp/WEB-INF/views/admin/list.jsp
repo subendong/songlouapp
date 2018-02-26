@@ -4,12 +4,12 @@
 <table class="table table-striped jambo_table bulk_action">
 	<thead>
 		<tr class="headings">
-			<th class="column-title" >
+			<th class="column-title col-md-1" >
 				<input type="checkbox" id="check-all" class="flat" />
 			</th>
-			<th class="column-title" style="display: table-cell;">ID</th>
-			<th class="column-title" style="display: table-cell;">用戶名</th>
-			<th class="column-title no-link last" style="display: table-cell;"><span class="nobr">操作</span>
+			<th class="column-title col-md-1" style="display: table-cell;">ID</th>
+			<th class="column-title col-md-9" style="display: table-cell;">用戶名</th>
+			<th class="column-title col-md-1 no-link last" style="display: table-cell;"><span class="nobr">操作</span>
 			</th>
 		</tr>
 	</thead>
