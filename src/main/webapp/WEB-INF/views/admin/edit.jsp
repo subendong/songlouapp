@@ -12,8 +12,8 @@
 <!-- common css -->
 <%@ include file="/WEB-INF/views/commoncss.jsp"%>
 <!-- /common css -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/js/zyupload/skins/zyupload-1.0.0.min.css" />
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -56,11 +56,8 @@
 											<label for="photo"
 												class="control-label col-md-3 col-sm-3 col-xs-2">上传照片<span
 												class="required">*</span></label>
-											<div class="col-md-6 col-sm-6 col-xs-10 bs-glyphicons">
-												<ul class="bs-glyphicons-list">
-													<li style="width:150px; height:90px; margin-left:9px;"><span class="glyphicon glyphicon-open"
-														aria-hidden="true"></span> <span class="glyphicon-class">请选择图片</span></li>
-												</ul>
+											<div class="col-md-6 col-sm-6 col-xs-10">
+												<div id="zyupload" class="zyupload"></div>
 												<input type="hidden" name="photo" id="photo" value=""
 													required="required" class="form-control col-md-7 col-xs-12" />
 											</div>
@@ -96,6 +93,7 @@
 	<!-- /common js -->
 	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
+	<script src="<%=request.getContextPath()%>/js/zyupload/zyupload-1.0.0.min.js"></script>
 	<script type="text/javascript">
 		var uploadUrl = "<%=request.getContextPath()%>/upload/index";
 		$(document).ready(
@@ -131,16 +129,47 @@
 							e.preventDefault();
 						});
 					
-					//上传图片按钮单击事件
-					$(".bs-glyphicons-list").click(function(){
-						layer.open({
-							type: 2,
-							title: '上传图片',
-							shadeClose: true,
-							shade: 0.1,
-							area: ['70%', '60%'],
-							content: uploadUrl
-						});
+					// 初始化插件
+					$("#zyupload").zyUpload({
+						width            :   "100%",                  // 宽度
+						height           :   "330px",                 // 宽度
+						itemWidth        :   "140px",                 // 文件项的宽度
+						itemHeight       :   "115px",                 // 文件项的高度
+						url              :   uploadUrl,		          // 上传文件的路径
+						fileType         :   ["jpg","png","js","exe","txt"],// 上传文件的类型
+						fileSize         :   51200000,                // 上传文件的大小
+						multiple         :   false,                   // 是否可以多个文件上传
+						dragDrop         :   true,                    // 是否可以拖动上传文件
+						tailor           :   true,                    // 是否可以裁剪图片
+						del              :   true,                    // 是否可以删除文件
+						finishDel        :   false,  				  // 是否在上传文件完成后删除预览
+						/* 外部获得的回调接口 */
+						onSelect: function(selectFiles, allFiles){    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+							console.info("当前选择了以下文件：");
+							console.info(selectFiles);
+						},
+						onDelete: function(file, files){              // 删除一个文件的回调方法 file:当前删除的文件  files:删除之后的文件
+							console.info("当前删除了此文件：");
+							console.info(file.name);
+						},
+					 	onSuccess: function(file, response){          // 文件上传成功的回调方法
+							console.info("此文件上传成功：");
+							console.info(file.name);
+							console.info("此文件上传到服务器地址：");
+							console.info(response);
+							$("#uploadInf").append("<p>上传成功，文件地址是：" + response + "</p>");
+						},
+						/* onSuccess: function(data){
+							$("#uploadInf").append("<p>上传成功，文件地址是：" + data.message + "</p>");
+						}, */
+						onFailure: function(file, response){          // 文件上传失败的回调方法
+							console.info("此文件上传失败：");
+							console.info(file.name);
+						},
+						onComplete: function(response){           	  // 上传完成的回调方法
+							console.info("文件上传完成");
+							console.info(response);
+						}
 					});
 		});
 	</script>

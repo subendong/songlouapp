@@ -118,7 +118,7 @@
 					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
-					area: ['35%', '50%'],
+					area: ['35%', '70%'],
 					content: addUrl //iframe的url
 				});
 			});
@@ -130,7 +130,7 @@
 					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
-					area: ['35%', '50%'],
+					area: ['35%', '70%'],
 					content: editUrl + "?id=" + $(this).attr("adminId") //iframe的url
 				});
 			});
