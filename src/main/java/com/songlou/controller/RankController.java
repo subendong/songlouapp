@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.songlou.common.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
@@ -44,7 +46,8 @@ public class RankController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add", method=RequestMethod.POST)
-    public @ResponseBody String insert(Rank rank){
+	@ResponseBody
+    public ResultHelper add(Rank rank){
 /*		Rank rank = new Rank();
 		rank.setParentId(0);
 		rank.setRankName("测试");
@@ -57,9 +60,9 @@ public class RankController {
 		//验证先不加，到时候用模型绑定的验证来处理
 		
 		
-		rankService.insert(rank);
+		ResultHelper resultHelper = rankService.add(rank);
 
-    	return Integer.toString(rank.getId());
+    	return resultHelper;
     }
 
 	/**
@@ -82,9 +85,10 @@ public class RankController {
 	 * @return
 	 */
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
-    public @ResponseBody String edit(Rank rank){
-		rankService.update(rank);
-    	return Integer.toString(rank.getId());
+	@ResponseBody
+    public ResultHelper edit(Rank rank){
+		ResultHelper resultHelper = rankService.update(rank);
+    	return resultHelper;
     }
 	
 	/**
@@ -93,8 +97,8 @@ public class RankController {
 	 * @return
 	 */
 	@RequestMapping("/delete")
-	public @ResponseBody String delete(String ids){
-		rankService.delete(ids);
+	public @ResponseBody String delete(int id){
+		rankService.delete(id);
 		
 		return "删除成功";
 	}

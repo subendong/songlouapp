@@ -37,12 +37,12 @@
 												class="control-label col-md-3 col-sm-3 col-xs-2">上级权限<span
 												class="required">*</span></label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
-												<select class="form-control" name="parentId" id="parentId">
+												<select class="form-control" name="parentId" id="parentId" ${model.getParentId() == 0 ? "" : "readonly=\"readonly\""}>
 													<option value="0">请选择</option>
 													<c:forEach var="rank" items="${ranks}">
 														<option value="${rank.getId()}">
 															<c:forEach var="i" begin="1" end="${rank.getDepth() - 1}">
-																<c:out value="|--" />
+																<c:out value="|----" />
 															</c:forEach> ${rank.getRankName() }
 														</option>
 													</c:forEach>
@@ -74,17 +74,6 @@
 											<div class="col-md-6 col-sm-6 col-xs-10">
 												<input type="text" name="action" id="action" value="${model.getAction()}"
 													required="required" class="form-control col-md-7 col-xs-12">
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label for="showOrder"
-												class="control-label col-md-3 col-sm-3 col-xs-2">排序<span
-												class="required">*</span></label>
-											<div class="col-md-6 col-sm-6 col-xs-10">
-												<input type="text" name="showOrder" id="showOrder" value="${model.getShowOrder()}"
-													required="required" class="form-control col-md-7 col-xs-12"
-													value="0">
 											</div>
 										</div>
 
@@ -155,7 +144,6 @@
 					rankName: $("#rankName").val(),
 					controller: $("#controller").val(),
 					action: $("#action").val(),
-					showOrder: $("#showOrder").val(),
 					leftShow: $("#leftShow").is(":checked") ? 1 : 0
 				};
 
@@ -164,6 +152,13 @@
 					data : param,
 					dataType : "text",
 					success : function(data) {
+						var json = JSON.parse(data);
+						if(!json.success){
+							layer.msg(json.message, {time: 2000});
+		                    layer.closeAll('loading');
+							return;
+						}
+						
 						//添加成功后，刷新当前页
 	                    layer.msg("操作成功", {time: 1000},function(){/*window.location.reload();*/});
 	                    layer.closeAll('loading');

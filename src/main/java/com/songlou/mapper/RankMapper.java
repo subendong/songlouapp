@@ -53,4 +53,30 @@ public interface RankMapper {
 	 * @param rank
 	 */
 	public void delete(Rank rank);
+	
+	/**
+	 * 获取同级最大排序值 
+	 * @param parentId
+	 * @return
+	 */
+	public int selectMaxInnerOrder(int parentId);
+	
+	/**
+	 * 获取同rootId最大排序值
+	 * @param parentId
+	 * @return
+	 */
+	public int selectMaxOuterOrder(int rootId);
+	
+	/**
+	 * 更新同级权限的排序，做-1处理
+	 * @param rank
+	 */
+	public void updateInnerOrder(Rank rank);
+	
+	/**
+	 * 更新同rootId权限的排序，做-1处理
+	 * @param rank
+	 */
+	public void updateOuterOrder(Rank rank);
 }

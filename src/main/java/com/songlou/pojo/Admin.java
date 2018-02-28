@@ -4,6 +4,8 @@ public class Admin {
 	private int id;
 	private String username;//用户名
 	private String password;//密码
+	private String photo;//头像
+	
 	public int getId() {
 		return id;
 	}
@@ -22,5 +24,14 @@ public class Admin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	@Override
+	public String toString() {
+		return "Admin [id=" + id + ", username=" + username + ", password=" + password + ", photo=" + photo + "]";
+	}
 }

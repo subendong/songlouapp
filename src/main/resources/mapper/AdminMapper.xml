@@ -3,7 +3,7 @@
 <mapper namespace="com.songlou.mapper.AdminMapper">
 	<!-- 定义查询的字段 -->
 	<sql id="pagingQueryField">
-		id,username,password
+		id,username,password,photo
 	</sql>
 	<!-- 定义分页查询的条件 -->
 	<sql id="pagingCondition">
@@ -38,14 +38,14 @@
 			SELECT
 			LAST_INSERT_ID()
 		</selectKey>
-		insert into xin_admin(username, password)
-		values(#{username}, #{password})
+		insert into xin_admin(username, password, photo)
+		values(#{username}, #{password}, #{photo})
 	</insert>
 	
 	<!-- 修改数据 -->
 	<update id="update" parameterType="com.songlou.pojo.Admin">
 		update xin_admin
-		set username=#{username}, password=#{password}
+		set username=#{username}, password=#{password}, photo=#{photo}
 		where id=#{id}
 	</update>
 	
@@ -54,6 +54,13 @@
 		SELECT 
 		<include refid="pagingQueryField"></include>
 		FROM xin_admin WHERE ID = #{id}
+	</select>
+	
+	<!-- 登录查询 -->
+	<select id="selectLogin" parameterType="com.songlou.pojo.Admin" resultType="com.songlou.pojo.Admin">
+		SELECT 
+		<include refid="pagingQueryField"></include>
+		FROM xin_admin WHERE username = #{username} and password=#{password}
 	</select>
 	
 	<!-- 删除数据 -->

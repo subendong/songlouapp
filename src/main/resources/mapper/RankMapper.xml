@@ -3,7 +3,7 @@
 <mapper namespace="com.songlou.mapper.RankMapper">
 	<!-- 定义查询的字段 -->
 	<sql id="pagingQueryField">
-		id,rootId,parentId,rankName,controller,action,leftShow,showOrder,depth
+		id,rootId,parentId,rankName,controller,action,leftShow,innerOrder,outerOrder,depth
 	</sql>
 	<!-- 
 		定义分页查询的条件
@@ -26,6 +26,7 @@
 		SELECT 
 		<include refid="pagingQueryField"></include>
 		FROM xin_rank
+		ORDER BY rootId ASC, outerOrder ASC
 	</select>
 	
 	<!-- 插入数据 -->
@@ -35,16 +36,17 @@
 			LAST_INSERT_ID()
 		</selectKey>
 		insert into xin_rank(parentId, rankName, controller, action, leftShow,
-		showOrder, depth)
+		innerOrder, outerOrder, depth)
 		values(#{parentId}, #{rankName}, #{controller},
-		#{action}, #{leftShow}, #{showOrder},
+		#{action}, #{leftShow}, #{innerOrder}, #{outerOrder},
 		#{depth})
 	</insert>
 	
 	<!-- 修改数据 -->
 	<update id="update" parameterType="com.songlou.pojo.Rank">
 		update xin_rank 
-		set rootId=#{rootId}, parentId=#{parentId}, rankName=#{rankName}, controller=#{controller}, action=#{action}, leftShow=#{leftShow}, showOrder=#{showOrder},depth=#{depth} 
+		set rootId=#{rootId}, parentId=#{parentId}, rankName=#{rankName}, controller=#{controller}, action=#{action}, leftShow=#{leftShow}, 
+			innerOrder=#{innerOrder}, outerOrder=#{outerOrder}, depth=#{depth} 
 		where id=#{id}
 	</update>
 	
@@ -55,6 +57,34 @@
 			<if test="id!=null"> id = #{id} </if>
 		</where>
 	</delete>
+	
+	<!-- 获取同级最大排序值 -->
+	<select id="selectMaxInnerOrder" parameterType="int" resultType="int">
+		SELECT MAX(innerOrder)
+		FROM xin_rank
+		WHERE parentId=#{parentId}
+	</select>
+	
+	<!-- 获取同rootId最大排序值 -->
+	<select id="selectMaxOuterOrder" parameterType="int" resultType="int">
+		SELECT IFNULL(MAX(outerOrder), 0)
+		FROM xin_rank
+		WHERE rootId=#{rootId}
+	</select>
+	
+	<!-- 对排序大于该记录的同级权限的排序做-1处理 -->
+	<update id="updateInnerOrder" parameterType="com.songlou.pojo.Rank">
+		UPDATE xin_rank 
+		SET innerOrder=innerOrder - 1
+		WHERE parentId=#{parentId} and innerOrder > #{innerOrder}
+	</update>
+	
+	<!-- 对排序大于该记录的同rootId权限的排序做-1处理 -->
+	<update id="updateOuterOrder" parameterType="com.songlou.pojo.Rank">
+		UPDATE xin_rank 
+		SET outerOrder=outerOrder - 1
+		WHERE rootId=#{rootId} and outerOrder > #{outerOrder}
+	</update>
 	
 	<!-- 
 	分页查询记录
@@ -68,7 +98,7 @@
 		<where>
 			<include refid="pagingCondition" />
 		</where>
-		order by id desc
+		order by rootId asc, outerOrder asc
 		<!-- limit #{start},#{number} -->
 		<!-- 注意上面这行分页方法是在程序处理好后分页的起始位置 ，而且是mysql的写法 -->
 		<!-- 如果是sqlserver，demo:limit ${(pageIndex-1)*pageSize}, ${pageIndex*pageSize} -->

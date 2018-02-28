@@ -53,4 +53,11 @@ public interface AdminMapper {
 	 * @param ids
 	 */
 	public void batchDelete(String ids);
+	
+	/**
+	 * µÇÂ¼²éÑ¯
+	 * @param admin
+	 * @return
+	 */
+	public Admin selectLogin(Admin admin);
 }

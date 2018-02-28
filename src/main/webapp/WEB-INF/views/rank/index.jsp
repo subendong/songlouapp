@@ -1,19 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8" isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>权限管理</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- common css -->
-<%@ include file="/WEB-INF/views/commoncss.jsp"%>
-<!-- /common css -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/pagination.css" />
-<link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
+	<title>权限管理</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- common css -->
+	<%@ include file="/WEB-INF/views/commoncss.jsp"%>
+	<!-- /common css -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/pagination.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -38,26 +38,12 @@
 									<h2>
 										权限管理 <small>权限列表</small>
 									</h2>
-									<!-- <ul class="nav navbar-right panel_toolbox">
-										<li><a class="collapse-link"><i
-												class="fa fa-chevron-up"></i></a></li>
-										<li class="dropdown"><a href="#" class="dropdown-toggle"
-											data-toggle="dropdown" role="button" aria-expanded="false"><i
-												class="fa fa-wrench"></i></a>
-											<ul class="dropdown-menu" role="menu">
-												<li><a href="#">Settings 1</a></li>
-												<li><a href="#">Settings 2</a></li>
-											</ul></li>
-										<li><a class="close-link"><i class="fa fa-close"></i></a>
-										</li>
-									</ul> -->
 									<div class="clearfix"></div>
 								</div>
 
 								
 								<div class="input-group" class="col-md-3" style="float:left;">
 									<button type="button" class="btn btn-info" id="btnAdd">新增</button>
-									<button type="button" class="btn btn-info" id="btnBatchDelete">批量删除</button>
 								</div>								
 								
 								
@@ -90,9 +76,11 @@
 			<!-- /footer content -->
 		</div>
 	</div>
+	
 	<!-- common js -->
 	<%@ include file="/WEB-INF/views/commonjs.jsp"%>
 	<!-- /common js -->
+	
 	<script src="<%=request.getContextPath()%>/js/jquery.pagination.js"></script>
 	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
@@ -135,20 +123,15 @@
 				});
 			});
 			
-			//全选事件
-			$(".table-responsive").on('ifChecked ifUnchecked', "#check-all", function(event){ //ifCreated 事件应该在插件初始化之前绑定 
-				$(".table-responsive input[name='id']").iCheck(event.type == 'ifChecked' ? 'check' : 'uncheck');  
-			});
-			
 			//删除事件
 			$(".table-responsive").on("click", "table tr td .aDelete", function(){
-				var ids = $(this).attr("rankId");
+				var id = $(this).attr("rankId");
 	 		 	layer.confirm("确定删除？", {btn: ["确定","取消"]}, function(){
 	 		 		//确定删除，需要处理的业务逻辑
- 					ajaxDelete(ids);
-				}, 
+ 					ajaxDelete(id);
+				},
 				function(){
-					//取消删除，do nothing
+					//取消删除，do nothing。这个function可以不写的，但是如果想在取消后做点其它事情，就有用了
 				});
 				//下面这个效果也不错，别删啊，可以试试
 				/*layer.msg("确定删除？", {
@@ -159,31 +142,12 @@
 					}
 				});*/
 			});
-			
-			//批量删除按钮单击事件
-			$("#btnBatchDelete").click(function(){
-				var ids = getIds();
-				if (ids == "") {
-                    layer.tips('请最少选择一条记录', '#btnBatchDelete', {
-                        tips: [1, '#f33']
-                    });
-                    return false;
-                }
-				
-				layer.confirm("确定删除？", {btn: ["确定","取消"]}, function(){
-	 		 		//确定删除，需要处理的业务逻辑
- 					ajaxDelete(ids);
-				}, 
-				function(){
-					//取消删除，do nothing
-				});
-			});
 		});
 		
 		//异步删除
-		function ajaxDelete(ids){
+		function ajaxDelete(id){
 			var param = {
-				ids : ids	
+				id : id	
 			};
 			$.ajax({
 			    type:"post",
@@ -191,32 +155,15 @@
 				data : param,
 				dataType : "text",
 				success : function(data) {
+					//删除成功之后，重新加载当前页数据
+					var pageIndex = $("#pageIndex").val();
+					setPage(pageIndex);
 					layer.msg("删除成功", {time: 1000},function(){
-						//删除成功之后，重新加载当前页数据
-						var pageIndex = $("#pageIndex").val();
-						setPage(pageIndex);
 					});
                     layer.closeAll('loading');
 				}
 			});
 		}
-		
-		//获取选中复选框的值
-        function getIds() {
-            var ids = "";
-            $("input[name='id']").each(function() {
-                var checked = $(this).prop("checked");
-                if (checked) {
-                    ids += $(this).val() + ",";
-                }
-            });
-
-            if (ids.length > 0) {
-                ids = ids.substr(0, ids.length - 1);
-            }
-
-            return ids;
-        }
 		
 		//分页处理
 		function setPage(pageIndex) {

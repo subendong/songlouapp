@@ -14,6 +14,11 @@
 <!-- /common css -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/js/zyupload/skins/zyupload-1.0.0.min.css" />
+<style type="text/css">
+	/*重写zyupload组件的样式*/
+	#status_info{width:100%;}
+	.upload_preview{width:100%; border-bottom:none;}
+</style>
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -58,7 +63,7 @@
 												class="required">*</span></label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
 												<div id="zyupload" class="zyupload"></div>
-												<input type="text" name="photo" id="photo" value=""
+												<input type="text" name="photo" id="photo" value="${model.getPhoto()}"
 													required="required" class="form-control col-md-7 col-xs-12" />
 											</div>
 										</div>
@@ -138,7 +143,7 @@
 					// 初始化插件
 					$("#zyupload").zyUpload({
 						width            :   "100%",                  // 宽度
-						height           :   "330px",                 // 宽度
+						height           :   "auto",                  // 宽度
 						itemWidth        :   "140px",                 // 文件项的宽度
 						itemHeight       :   "115px",                 // 文件项的高度
 						url              :   uploadUrl,		          // 上传文件的路径

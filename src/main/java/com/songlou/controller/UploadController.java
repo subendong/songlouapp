@@ -17,6 +17,7 @@ public class UploadController {
 	 * 上传
 	 * 要记得在spring-mvc.xml中配置上传组件的bean:multipartResolver
 	 * 在做这个功能的时候，图片上传成功了，但是始终提示404，最终原因是返回的时候要加上注解：@ResponseBody
+	 * 上传效果用到的组件是：zyupload，但是dropzone也不错，具体要看应用场景，哪种适合就用哪种
 	 * @param file
 	 * @return
 	 */

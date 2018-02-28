@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>权限管理</title>
+<title>管理员管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -118,7 +118,7 @@
 					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
-					area: ['35%', '70%'],
+					area: ['35%', '75%'],
 					content: addUrl //iframe的url
 				});
 			});
@@ -130,7 +130,7 @@
 					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
-					area: ['35%', '70%'],
+					area: ['35%', '75%'],
 					content: editUrl + "?id=" + $(this).attr("adminId") //iframe的url
 				});
 			});
@@ -191,11 +191,11 @@
 				data : param,
 				dataType : "text",
 				success : function(data) {
-					layer.msg("删除成功", {time: 1000},function(){
-						//删除成功之后，重新加载当前页数据
-						var pageIndex = $("#pageIndex").val();
-						setPage(pageIndex);
-					});
+					//删除成功之后，重新加载当前页数据
+					var pageIndex = $("#pageIndex").val();
+					setPage(pageIndex);
+					
+					layer.msg("删除成功", {time: 1000});
                     layer.closeAll('loading');
 				}
 			});

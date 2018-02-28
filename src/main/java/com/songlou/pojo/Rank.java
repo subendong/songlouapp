@@ -8,7 +8,8 @@ public class Rank {
 	private String controller;//控制器名称
 	private String action;//action名称
 	private int leftShow;//是否在左边菜单栏显示
-	private int showOrder;//显示顺序
+	private int innerOrder;//同级排序，越小越靠前
+	private int outerOrder;//同rootId排序，越小越靠前
 	private int depth;//深度（几级权限）
 	
 	public int getId() {
@@ -38,8 +39,8 @@ public class Rank {
 	public String getController() {
 		return controller;
 	}
-	public void setController(String control) {
-		this.controller = control;
+	public void setController(String controller) {
+		this.controller = controller;
 	}
 	public String getAction() {
 		return action;
@@ -53,11 +54,17 @@ public class Rank {
 	public void setLeftShow(int leftShow) {
 		this.leftShow = leftShow;
 	}
-	public int getShowOrder() {
-		return showOrder;
+	public int getInnerOrder() {
+		return innerOrder;
 	}
-	public void setShowOrder(int showOrder) {
-		this.showOrder = showOrder;
+	public void setInnerOrder(int innerOrder) {
+		this.innerOrder = innerOrder;
+	}
+	public int getOuterOrder() {
+		return outerOrder;
+	}
+	public void setOuterOrder(int outerOrder) {
+		this.outerOrder = outerOrder;
 	}
 	public int getDepth() {
 		return depth;
@@ -69,7 +76,7 @@ public class Rank {
 	@Override
 	public String toString() {
 		return "Rank [id=" + id + ", rootId=" + rootId + ", parentId=" + parentId + ", rankName=" + rankName
-				+ ", control=" + controller + ", action=" + action + ", leftShow=" + leftShow + ", showOrder=" + showOrder
-				+ ", depth=" + depth + "]";
+				+ ", controller=" + controller + ", action=" + action + ", leftShow=" + leftShow + ", innerOrder="
+				+ innerOrder + ", outerOrder=" + outerOrder + ", depth=" + depth + "]";
 	}
 }

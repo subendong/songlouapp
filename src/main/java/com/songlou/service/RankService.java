@@ -2,6 +2,7 @@ package com.songlou.service;
 
 import java.util.List;
 
+import com.songlou.common.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
@@ -16,13 +17,13 @@ public interface RankService {
 	 * 新增
 	 * @param rank
 	 */
-	public void insert(Rank rank);
+	public ResultHelper add(Rank rank);
 	
 	/**
 	 * 修改
 	 * @param rank
 	 */
-	public void update(Rank rank);
+	public ResultHelper update(Rank rank);
 	
 	/**
 	 * 分页查询
@@ -48,5 +49,5 @@ public interface RankService {
 	 * 删除
 	 * @param rank
 	 */
-	public void delete(String ids);
+	public void delete(int id);
 }
