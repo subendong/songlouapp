@@ -5,6 +5,8 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.songlou.common.Md5Helper;
+import com.songlou.common.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;
@@ -40,16 +42,29 @@ public class AdminServiceImpl implements AdminService {
 	 * 新增
 	 */
 	@Override
-	public void insert(Admin admin) {
+	public ResultHelper insert(Admin admin) {
+		if(admin.getPassword() == null || admin.getPassword().isEmpty()){
+			return new ResultHelper(1, false, "密码不能为空", null);
+		}
+		
+		String password = Md5Helper.MD5(admin.getPassword());
+		admin.setPassword(password);
 		sqlSessionTemplate.insert("com.songlou.mapper.AdminMapper.insert", admin);
+		return new ResultHelper(0, true, "success", null);
 	}
 
 	/**
 	 * 修改
 	 */
 	@Override
-	public void update(Admin admin) {
+	public ResultHelper update(Admin admin) {
+		if(admin.getPassword() != null && !admin.getPassword().isEmpty()){
+			String password = Md5Helper.MD5(admin.getPassword());
+			admin.setPassword(password);
+		}
+		
 		sqlSessionTemplate.update("com.songlou.mapper.AdminMapper.update", admin);
+		return new ResultHelper(0, true, "success", null);
 	}
 
 	/**
@@ -116,5 +131,18 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		sqlSessionTemplate.delete("com.songlou.mapper.AdminMapper.batchDelete", lists);
+	}
+
+	/**
+	 * 根据姓名和密码查询
+	 */
+	@Override
+	public ResultHelper select(Admin admin) {
+		//检查登录信息是否正确
+		admin = sqlSessionTemplate.selectOne("com.songlou.mapper.AdminMapper.selectLogin", admin);
+		if(admin == null){
+			return new ResultHelper(1, false, "error", null);
+		}
+		return new ResultHelper(0, true, "success", null);
 	}
 }

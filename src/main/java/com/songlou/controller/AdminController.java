@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.songlou.common.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;
@@ -64,10 +66,11 @@ public class AdminController {
 	 * @param rank
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping(value = "/add", method=RequestMethod.POST)
-    public @ResponseBody String insert(Admin admin){
-		adminService.insert(admin);
-    	return Integer.toString(admin.getId());
+    public ResultHelper insert(Admin admin){
+		ResultHelper resultHelper = adminService.insert(admin);
+    	return resultHelper;
 	}
 	
 	/**
@@ -88,9 +91,10 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
-    public @ResponseBody String edit(Admin admin){
-		adminService.update(admin);
-    	return Integer.toString(admin.getId());
+	@ResponseBody
+    public ResultHelper edit(Admin admin){
+		ResultHelper resultHelper = adminService.update(admin);
+		return resultHelper;
     }
 	
 	/**

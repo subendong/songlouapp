@@ -45,7 +45,9 @@
 	<!-- 修改数据 -->
 	<update id="update" parameterType="com.songlou.pojo.Admin">
 		update xin_admin
-		set username=#{username}, password=#{password}, photo=#{photo}
+		set username=#{username}
+		<if test="password!=null and password!=''"> , password = #{password} </if>
+		, photo=#{photo}
 		where id=#{id}
 	</update>
 	

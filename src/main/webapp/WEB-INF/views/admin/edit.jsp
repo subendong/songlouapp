@@ -46,14 +46,25 @@
 													class="form-control col-md-7 col-xs-12">
 											</div>
 										</div>
+										<!-- 演示if的用法，先不删除，供学习用 -->
+										<%-- <c:choose>
+											<c:when test="${model.getId() == 0}">  
+												<div class="form-group">
+													<label for="password"
+														class="control-label col-md-3 col-sm-3 col-xs-2">密码<span
+														class="required">*</span></label>
+													<div class="col-md-6 col-sm-6 col-xs-10">
+														<input type="text" name="password" id="password"
+															value="${model.getPassword()}" required="required"
+															class="form-control col-md-7 col-xs-12">
+													</div>
+												</div>
+											</c:when>
+										</c:choose> --%>
 										<div class="form-group">
-											<label for="password"
-												class="control-label col-md-3 col-sm-3 col-xs-2">密码<span
-												class="required">*</span></label>
+											<label for="password" class="control-label col-md-3 col-sm-3 col-xs-2">密码</label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
-												<input type="text" name="password" id="password"
-													value="${model.getPassword()}" required="required"
-													class="form-control col-md-7 col-xs-12">
+												<input type="text" name="password" id="password" value="" class="form-control col-md-7 col-xs-12">
 											</div>
 										</div>
 
@@ -121,10 +132,15 @@
 							$.ajax({
 								type : "post",
 								data : param,
-								dataType : "text",
+								dataType : "json",
 								success : function(data) {
+									var tip = "操作成功";
+									if(!data.success){
+										tip = data.message;
+									}
+									
 									//添加成功后，刷新当前页
-									layer.msg("操作成功", {
+									layer.msg(tip, {
 										time : 1000
 									}, function() {/*window.location.reload();*/
 									});

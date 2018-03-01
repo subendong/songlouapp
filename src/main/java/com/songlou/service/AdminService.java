@@ -1,5 +1,6 @@
 package com.songlou.service;
 
+import com.songlou.common.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;
@@ -21,13 +22,13 @@ public interface AdminService {
 	 * 新增
 	 * @param admin
 	 */
-	public void insert(Admin admin);
+	public ResultHelper insert(Admin admin);
 	
 	/**
 	 * 修改
 	 * @param admin
 	 */
-	public void update(Admin admin);
+	public ResultHelper update(Admin admin);
 	
 	/**
 	 * 根据ID查询
@@ -47,4 +48,11 @@ public interface AdminService {
 	 * @param ids
 	 */
 	public void batchDelete(String ids);
+	
+	/**
+	 * 根据姓名和密码查询
+	 * @param admin
+	 * @return
+	 */
+	public ResultHelper select(Admin admin);
 }

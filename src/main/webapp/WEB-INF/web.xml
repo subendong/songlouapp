@@ -3,9 +3,72 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
+	
+	<!-- 
+	非常重要的参考文章：http://blog.csdn.net/qq_20805103/article/details/77851996 
+	这篇文章也不错：https://www.cnblogs.com/xdp-gacl/p/3760336.html
+	-->
+	
+	<!-- servlet的描述性说明文字，可删除 -->
 	<display-name>songlouapp</display-name>
+	
+	<!-- 
+	作用：该元素用来声明应用范围(整个WEB项目)内的上下文初始化参数。 
+	param-name 设定上下文的参数名称。必须是唯一名称 
+	param-value 设定的参数名称的值，这里的例子是指定spring配置文件的位置
+	-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
 
-	<!-- 过滤器解决中文乱码问题、强制编码 UTF-8 -->
+	<!-- 
+		指定监听类，该类继承ServletContextListener 包含初始化方法contextInitialized(ServletContextEvent event) 和销毁方法contextDestoryed(ServletContextEvent event) 
+		作用：该元素用来注册一个监听器类。可以收到事件什么时候发生以及用什么作为响应的通知。事件监听程序在建立、修改和删除会话或servlet环境时得到通知。常与context-param联合使用 
+	-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- 
+	//配置Spring MVC，指定处理请求的Servlet，有两种方式：
+	//1. 默认查找MVC配置文件的地址是：/WEB-INF/${servletName}-servlet.xml
+	//2. 可以通过配置修改MVC配置文件的位置，需要在配置DispatcherServlet时指定MVC配置文件的位置。
+	作用： 创建并返回一个包含基于客户请求性质的动态内容的完整的html页面； 
+	创建可嵌入到现有的html页面中的一部分html页面（html片段）； 
+	读取客户端发来的隐藏数据； 
+	读取客户端发来的显示数据； 
+	与其他服务器资源（包括数据库和java的应用程序）进行通信；
+	-->
+	<servlet>
+		<servlet-name>springMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- ★★★★★sessionFilter过滤器，用来判断是否登录 -->
+	<filter>
+		<filter-name>sessionFilter</filter-name>
+		<filter-class>com.songlou.controller.SessionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- ★★★★★
+	作用：用于指定WEB容器的过滤器， filter能够在一个请求到达servlet之前预处理用户请求，也可以在离开servlet时处理http响应；
+	在执行servlet之前，首先执行filter程序，并为之做一些预处理工作；根据程序需要修改请求和响应；在servlet被调用之后截获servlet的执行。
+	设置字符编码 的过滤器
+	-->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -21,43 +84,5 @@
 	<filter-mapping>
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<!-- 配置 springMVC 基本配置 -->
-	<servlet>
-		<servlet-name>springMVC</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>springMVC</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
-	<!-- 配置 spring 监听器 -->
-	<!-- needed for ContextLoaderListener -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml</param-value>
-	</context-param>
-	<!-- Bootstraps the root web application context before servlet initialization -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	
-	
-	<!-- sessionfilter -->
-	<filter>
-	    <filter-name>sessionFilter</filter-name>
-	    <filter-class>com.songlou.common.SessionFilter</filter-class>
-	</filter>
-	
-	<filter-mapping>
-	    <filter-name>sessionFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
 </web-app>
