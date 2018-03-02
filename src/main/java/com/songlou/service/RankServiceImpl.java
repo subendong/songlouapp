@@ -5,7 +5,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.songlou.common.ResultHelper;
+import com.songlou.instrument.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
@@ -120,7 +120,12 @@ public class RankServiceImpl implements RankService {
 	 * @param rank
 	 */
 	@Override
-	public void delete(int id) {
+	public ResultHelper delete(int id) {
+		int childrenAmount = sqlSessionTemplate.selectOne("com.songlou.mapper.RankMapper.selectChildrenAmount", id);
+		if(childrenAmount > 0){
+			return new ResultHelper(1, false, "请先删除子权限", null);
+		}		
+		
 		Rank rank = selectById(id);
 		//对排序大于该记录的同级权限的排序做-1处理
 		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.updateInnerOrder", rank);
@@ -128,5 +133,7 @@ public class RankServiceImpl implements RankService {
 		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.updateOuterOrder", rank);
 		//最后做删除操作
 		sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
+		
+		return new ResultHelper(0, true, "success", null);
 	}
 }

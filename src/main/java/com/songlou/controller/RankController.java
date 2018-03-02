@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.songlou.common.ResultHelper;
+import com.songlou.annotation.NeedLogin;
+import com.songlou.instrument.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
@@ -30,6 +31,7 @@ public class RankController {
 	 * 新增-视图
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/add")
 	public ModelAndView add(){
 		Rank rank = new Rank();
@@ -45,6 +47,7 @@ public class RankController {
 	 * @param rank
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping(value = "/add", method=RequestMethod.POST)
 	@ResponseBody
     public ResultHelper add(Rank rank){
@@ -69,6 +72,7 @@ public class RankController {
 	 * 修改-视图
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/edit")
 	public ModelAndView edit(int id){
 		Rank rank = rankService.selectById(id);
@@ -84,6 +88,7 @@ public class RankController {
 	 * @param rank
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
 	@ResponseBody
     public ResultHelper edit(Rank rank){
@@ -93,20 +98,24 @@ public class RankController {
 	
 	/**
 	 * 删除
+	 * 注意：在删除的时候，如果有子类，不允许直接删除
 	 * @param rank
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/delete")
-	public @ResponseBody String delete(int id){
-		rankService.delete(id);
+	@ResponseBody
+	public ResultHelper delete(int id){
+		ResultHelper resultHelper = rankService.delete(id);
 		
-		return "删除成功";
+		return resultHelper;
 	}
 	
 	/**
 	 * 列表页
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/index")
 	public ModelAndView index(){
 		ModelAndView mav = new ModelAndView("rank/index");
@@ -117,6 +126,7 @@ public class RankController {
 	 * 异步获取列表
 	 * 请求参数获取的几种方法 ：https://www.cnblogs.com/xiaoxi/p/5695783.html
 	 */
+	@NeedLogin
 	@RequestMapping(value = "/list", method=RequestMethod.POST)
 	public ModelAndView list(RankSearchModel searchModel){
 		searchModel.setRankName(searchModel.getRankName().trim());

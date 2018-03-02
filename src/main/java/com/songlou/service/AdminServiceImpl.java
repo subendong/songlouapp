@@ -5,8 +5,9 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.songlou.common.Md5Helper;
-import com.songlou.common.ResultHelper;
+
+import com.songlou.instrument.Md5Helper;
+import com.songlou.instrument.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;

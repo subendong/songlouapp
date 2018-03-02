@@ -1,4 +1,4 @@
-package com.songlou.common;
+package com.songlou.instrument;
 
 import java.security.MessageDigest;
 

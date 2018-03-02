@@ -29,6 +29,13 @@
 		ORDER BY rootId ASC, outerOrder ASC
 	</select>
 	
+	<!-- 根据parentId查找子权限数量 -->
+	<select id="selectChildrenAmount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM xin_rank
+		WHERE parentId=#{parentId}
+	</select>
+	
 	<!-- 插入数据 -->
 	<insert id="insert" parameterType="com.songlou.pojo.Rank">
 		<selectKey keyProperty="id" resultType="int" order="AFTER">

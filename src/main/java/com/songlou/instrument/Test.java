@@ -1,4 +1,4 @@
-package com.songlou.common;
+package com.songlou.instrument;
 
 public class Test {
 	public static void main(String[] args) throws Exception {  

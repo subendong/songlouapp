@@ -2,7 +2,7 @@ package com.songlou.service;
 
 import java.util.List;
 
-import com.songlou.common.ResultHelper;
+import com.songlou.instrument.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
 import com.songlou.pojo.Rank;
@@ -49,5 +49,5 @@ public interface RankService {
 	 * É¾³ý
 	 * @param rank
 	 */
-	public void delete(int id);
+	public ResultHelper delete(int id);
 }

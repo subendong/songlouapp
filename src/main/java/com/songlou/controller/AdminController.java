@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.songlou.annotation.AuthorizeAnnotation;
-import com.songlou.common.ResultHelper;
+import com.songlou.annotation.NeedLogin;
+import com.songlou.instrument.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;
@@ -29,7 +29,7 @@ public class AdminController {
 	 * 列表页
 	 * @return
 	 */
-	@AuthorizeAnnotation
+	@NeedLogin
 	@RequestMapping("/index")
 	public ModelAndView index(){
 		ModelAndView mav = new ModelAndView("admin/index");
@@ -40,6 +40,7 @@ public class AdminController {
 	 * 异步获取列表
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping(value = "/list", method=RequestMethod.POST)
 	public ModelAndView index(AdminSearchModel searchModel){
 		searchModel.setUsername(searchModel.getUsername().trim());
@@ -55,6 +56,7 @@ public class AdminController {
 	 * 新增-视图
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/add")
 	public ModelAndView add(){
 		Admin admin = new Admin();
@@ -68,6 +70,7 @@ public class AdminController {
 	 * @param rank
 	 * @return
 	 */
+	@NeedLogin
 	@ResponseBody
 	@RequestMapping(value = "/add", method=RequestMethod.POST)
     public ResultHelper insert(Admin admin){
@@ -79,6 +82,7 @@ public class AdminController {
 	 * 修改-视图
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/edit")
 	public ModelAndView edit(int id){
 		Admin  admin = adminService.selectById(id);
@@ -92,6 +96,7 @@ public class AdminController {
 	 * @param rank
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
 	@ResponseBody
     public ResultHelper edit(Admin admin){
@@ -104,6 +109,7 @@ public class AdminController {
 	 * @param rank
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping("/delete")
 	public @ResponseBody String delete(String ids){
 		//adminService.delete(ids);

@@ -1,3 +1,4 @@
+<%@page import="com.songlou.service.SessionUtil"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 
@@ -16,8 +17,7 @@
 		<!-- menu profile quick info -->
 		<div class="profile clearfix">
 			<div class="profile_pic">
-				<img src="<%=pathLeft%>/images/img.jpg" alt="..."
-					class="img-circle profile_img">
+				<img src="<%=pathLeft + SessionUtil.getCurrentAdmin(request).getPhoto()%>" class="img-circle profile_img" />
 			</div>
 			<div class="profile_info">
 				<span>Welcome,</span>

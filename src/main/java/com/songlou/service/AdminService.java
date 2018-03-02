@@ -1,6 +1,6 @@
 package com.songlou.service;
 
-import com.songlou.common.ResultHelper;
+import com.songlou.instrument.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
 import com.songlou.pojo.Admin;

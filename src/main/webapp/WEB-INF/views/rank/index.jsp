@@ -153,11 +153,20 @@
 			    type:"post",
 				url: deleteUrl,
 				data : param,
-				dataType : "text",
+				dataType : "json",
 				success : function(data) {
+					//如果删除失败，则弹出提示信息
+					if(!data.success){
+						layer.msg(data.message, {time: 1000});
+	                    layer.closeAll('loading');
+						return;
+					}
+					
 					//删除成功之后，重新加载当前页数据
 					var pageIndex = $("#pageIndex").val();
 					setPage(pageIndex);
+					
+					//弹出成功提示
 					layer.msg("删除成功", {time: 1000},function(){
 					});
                     layer.closeAll('loading');

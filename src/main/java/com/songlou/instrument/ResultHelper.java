@@ -1,4 +1,4 @@
-package com.songlou.common;
+package com.songlou.instrument;
 
 public class ResultHelper {
 	private int code;//×´Ì¬Âë
@@ -29,6 +29,11 @@ public class ResultHelper {
 	public void setData(Object data) {
 		this.data = data;
 	}
+	
+	public ResultHelper(){
+		
+	}
+	
 	public ResultHelper(int code, boolean success, String message, Object data) {
 		this.code = code;
 		this.success = success;

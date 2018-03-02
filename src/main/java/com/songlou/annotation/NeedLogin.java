@@ -17,6 +17,6 @@ import java.lang.annotation.ElementType;
 @Inherited  
 @Retention(RetentionPolicy.RUNTIME)  
 @Target({ElementType.METHOD})
-public @interface AuthorizeAnnotation {
+public @interface NeedLogin {
 	boolean validate() default true;
 }
