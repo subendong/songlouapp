@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.songlou.annotation.AuthorizeAnnotation;
 import com.songlou.common.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
@@ -28,6 +29,7 @@ public class AdminController {
 	 * ¡–±Ì“≥
 	 * @return
 	 */
+	@AuthorizeAnnotation
 	@RequestMapping("/index")
 	public ModelAndView index(){
 		ModelAndView mav = new ModelAndView("admin/index");

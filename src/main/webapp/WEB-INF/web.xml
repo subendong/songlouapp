@@ -54,10 +54,13 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!-- ★★★★★sessionFilter过滤器，用来判断是否登录 -->
+	<!-- ★★★★★sessionFilter过滤器，用来判断是否登录
+		没用到，因为搞了好久都没搞好，最后用注解来做的权限判断
+		放在这里作为Demo，方便以后参考
+	-->
 	<filter>
 		<filter-name>sessionFilter</filter-name>
-		<filter-class>com.songlou.controller.SessionFilter</filter-class>
+		<filter-class>com.songlou.filter.SessionFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>sessionFilter</filter-name>

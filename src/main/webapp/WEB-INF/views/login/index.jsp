@@ -51,7 +51,7 @@
 					dataType : "json",
 					success : function(data) {
 						if(data.success){
-							window.location.href = "<%=request.getContextPath()%>/rank/index";
+							window.location.href = "<%=request.getContextPath()%>/admin/index";
 						}else{
 							alert(data.message);
 						}
