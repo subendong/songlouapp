@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <table class="table table-striped jambo_table bulk_action">
 	<thead>
@@ -8,7 +7,7 @@
 				<input type="checkbox" id="check-all" class="flat" />
 			</th>
 			<th class="column-title col-md-1" style="display: table-cell;">ID</th>
-			<th class="column-title col-md-9" style="display: table-cell;">用戶名</th>
+			<th class="column-title col-md-9" style="display: table-cell;">角色</th>
 			<th class="column-title col-md-1 no-link last" style="display: table-cell;"><span class="nobr">操作</span>
 			</th>
 		</tr>
@@ -19,20 +18,21 @@
 			int i = 0;
 			String trClass = "";
 		%>
-		<c:forEach var="admin" items="${pagingModel.getDatas()}">
+		<c:forEach var="role" items="${pagingModel.getDatas()}">
 			<%
 				i++;
 				trClass = i % 2 == 1 ? "even" : "odd";
 			%>
 			<tr class="<%=trClass%> pointer">
 				<td class="a-center ">
-					<input type="checkbox" class="flat" name="id" value="${admin.getId()}" />
+					<input type="checkbox" class="flat" name="id" value="${role.getId()}" />
 				</td>
-				<td class=" ">${admin.getId()}</td>
-				<td class=" ">${admin.getUsername()}</td>
+				<td class=" ">${role.getId()}</td>
+				<td class=" ">${role.getName()}</td>
 				<td class=" last">
-					<a href="#" class="aEdit" adminId="${admin.getId()}">修改</a>
-					<a href="#" class="aDelete" adminId="${admin.getId()}">删除</a>
+					<a href="#" class="aEdit" roleId="${role.getId()}">修改</a>
+					<a href="#" class="aSetRank" roleId="${role.getId()}">分配权限</a>
+					<a href="#" class="aDelete" roleId="${role.getId()}">删除</a>
 				</td>
 			</tr>
 		</c:forEach>

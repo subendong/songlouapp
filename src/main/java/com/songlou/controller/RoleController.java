@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.songlou.annotation.NeedLogin;
 import com.songlou.instrument.ResultHelper;
-import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
-import com.songlou.pojo.Admin;
-import com.songlou.service.AdminService;
+import com.songlou.model.RoleSearchModel;
+import com.songlou.pojo.Role;
+import com.songlou.service.RoleService;
 
 /**
- * http://localhost:8080/songlouapp/admin/index
+ * http://localhost:8080/songlouapp/role/index
  * @author sbd04462
  *
  */
 @Controller
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/role")
+public class RoleController {
 	@Autowired
-    private AdminService adminService;
+    private RoleService roleService;
 	
 	/**
 	 * 列表页
@@ -31,7 +31,7 @@ public class AdminController {
 	@NeedLogin
 	@RequestMapping("/index")
 	public ModelAndView index(){
-		ModelAndView mav = new ModelAndView("admin/index");
+		ModelAndView mav = new ModelAndView("role/index");
         return mav;
 	}
 
@@ -41,11 +41,11 @@ public class AdminController {
 	 */
 	@NeedLogin
 	@RequestMapping(value = "/list", method=RequestMethod.POST)
-	public ModelAndView index(AdminSearchModel searchModel){
-		searchModel.setUsername(searchModel.getUsername().trim());
+	public ModelAndView index(RoleSearchModel searchModel){
+		searchModel.setName(searchModel.getName().trim());
 		searchModel.setPageSize(15);
-		PagingModel<Admin> pagingModel = adminService.selectPagingData(searchModel);
-        ModelAndView mav = new ModelAndView("admin/list");
+		PagingModel<Role> pagingModel = roleService.selectPagingData(searchModel);
+        ModelAndView mav = new ModelAndView("role/list");
         mav.addObject("pagingModel", pagingModel);
         
         return mav;
@@ -58,9 +58,9 @@ public class AdminController {
 	@NeedLogin
 	@RequestMapping("/add")
 	public ModelAndView add(){
-		Admin admin = new Admin();
-		ModelAndView mav = new ModelAndView("admin/edit");
-		mav.addObject("model", admin);
+		Role role = new Role();
+		ModelAndView mav = new ModelAndView("role/edit");
+		mav.addObject("model", role);
         return mav;
 	}
 	
@@ -72,8 +72,8 @@ public class AdminController {
 	@NeedLogin
 	@ResponseBody
 	@RequestMapping(value = "/add", method=RequestMethod.POST)
-    public ResultHelper insert(Admin admin){
-		ResultHelper resultHelper = adminService.insert(admin);
+    public ResultHelper insert(Role role){
+		ResultHelper resultHelper = roleService.insert(role);
     	return resultHelper;
 	}
 	
@@ -84,9 +84,9 @@ public class AdminController {
 	@NeedLogin
 	@RequestMapping("/edit")
 	public ModelAndView edit(int id){
-		Admin  admin = adminService.selectById(id);
-		ModelAndView mav = new ModelAndView("admin/edit");
-		mav.addObject("model", admin);
+		Role  role = roleService.selectById(id);
+		ModelAndView mav = new ModelAndView("role/edit");
+		mav.addObject("model", role);
         return mav;
 	}
 	
@@ -98,8 +98,8 @@ public class AdminController {
 	@NeedLogin
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
 	@ResponseBody
-    public ResultHelper edit(Admin admin){
-		ResultHelper resultHelper = adminService.update(admin);
+    public ResultHelper edit(Role role){
+		ResultHelper resultHelper = roleService.update(role);
 		return resultHelper;
     }
 	
@@ -111,8 +111,7 @@ public class AdminController {
 	@NeedLogin
 	@RequestMapping("/delete")
 	public @ResponseBody String delete(String ids){
-		//adminService.delete(ids);
-		adminService.batchDelete(ids);
+		roleService.batchDelete(ids);
 		return "删除成功";
 	}
 }

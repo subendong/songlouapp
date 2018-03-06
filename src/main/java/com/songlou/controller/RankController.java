@@ -137,4 +137,15 @@ public class RankController {
         
         return mav;
 	}
+	
+	/**
+	 * È¨ÏÞÊ÷
+	 * @return
+	 */
+	@NeedLogin
+	@RequestMapping("/tree")
+	public ModelAndView tree(){
+		ModelAndView mav = new ModelAndView("rank/tree");
+        return mav;
+	}
 }
