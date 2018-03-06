@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songlou.mapper.RoleRankMapper">
+
+	<!-- 插入数据 -->
+	<insert id="insert" parameterType="com.songlou.pojo.RoleRank">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into xin_role_rank(roleId, rankId)
+		values(#{roleId}, #{rankId})
+	</insert>
+	
+	<!-- 根据角色ID查询 -->
+	<select id="selectRanksByRoleId" parameterType="int" resultType="com.songlou.pojo.Rank">
+		SELECT b.id,b.rootId,b.parentId,b.rankName,b.controller,b.action,b.leftShow,b.innerOrder,b.outerOrder,b.depth
+		FROM xin_role_rank as a join xin_rank as b on a.rankId = b.id WHERE a.roleId = #{roleId}
+	</select>
+	
+	<!-- 根据角色ID删除-->
+	<delete id="deleteByRoleId" parameterType="int">
+          DELETE FROM xin_role_rank WHERE roleId=#{roleId}
+	</delete>
+	
+</mapper>

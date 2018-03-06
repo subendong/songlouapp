@@ -1,6 +1,5 @@
 package com.songlou.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,20 +64,16 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	/**
-	 * 批量删除
-	 * 此方法根据id集合，一次性删除
-	 * 对id进行了重新处理，不能用字符串，要转换成整数，目的是为了安全，因为删除的时候用了in
+	 * 删除
 	 */
 	@Override
 	public void batchDelete(String ids) {
 		String[] arr = ids.split(",");
-		List<Integer> lists = new ArrayList<Integer>();
 		
 		for (int i = 0; i < arr.length; i++) {
 			int id = Integer.parseInt(arr[i]);
-			lists.add(id);
+			sqlSessionTemplate.delete("com.songlou.mapper.RoleMapper.delete", id);
+			sqlSessionTemplate.delete("com.songlou.mapper.RoleRankMapper.deleteByRoleId", id);
 		}
-		
-		sqlSessionTemplate.delete("com.songlou.mapper.RoleMapper.batchDelete", lists);
 	}
 }

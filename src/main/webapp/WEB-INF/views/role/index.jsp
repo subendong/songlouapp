@@ -79,16 +79,16 @@
 	<!-- common js -->
 	<%@ include file="/WEB-INF/views/commonjs.jsp"%>
 	<!-- /common js -->
-	<script src="<%=request.getContextPath()%>/js/jquery.pagination.js"></script>
-	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.pagination.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script type="text/javascript">
 		//操作按钮相关链接
 		var addUrl = "<%=request.getContextPath()%>/role/add";
 		var editUrl = "<%=request.getContextPath()%>/role/edit";
 		var listUrl = "<%=request.getContextPath()%>/role/list";
 		var deleteUrl = "<%=request.getContextPath() %>/role/delete";
-		var setRankUrl = "<%=request.getContextPath() %>/rank/tree";
+		var setRankUrl = "<%=request.getContextPath() %>/rolerank/tree";
 		
 		$(document).ready(function(){
 			setPage(1);
@@ -105,7 +105,7 @@
 					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
-					area: ['35%', '75%'],
+					area: ['35%', '35%'],
 					content: addUrl //iframe的url
 				});
 			});
@@ -117,7 +117,7 @@
 					title: '新增/修改',
 					shadeClose: true,
 					shade: 0.8,
-					area: ['35%', '75%'],
+					area: ['35%', '35%'],
 					content: editUrl + "?id=" + $(this).attr("roleId") //iframe的url
 				});
 			});
@@ -129,8 +129,8 @@
 					title: '分配权限',
 					shadeClose: true,
 					shade: 0.5,
-					area: ['40%', '60%'],
-					content: setRankUrl + "?id=" + $(this).attr("roleId") //iframe的url
+					area: ['40%', '80%'],
+					content: setRankUrl + "?roleId=" + $(this).attr("roleId") //iframe的url
 				});
 			});
 			

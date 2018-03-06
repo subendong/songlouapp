@@ -150,11 +150,10 @@
 				$.ajax({
 				    type:"post",
 					data : param,
-					dataType : "text",
+					dataType : "json",
 					success : function(data) {
-						var json = JSON.parse(data);
-						if(!json.success){
-							layer.msg(json.message, {time: 2000});
+						if(!data.success){
+							layer.msg(data.message, {time: 2000});
 		                    layer.closeAll('loading');
 							return;
 						}

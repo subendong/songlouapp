@@ -38,7 +38,7 @@ public interface RoleService {
 	public Role selectById(int id);
 	
 	/**
-	 * ÅúÁ¿É¾³ý
+	 * É¾³ý
 	 * @param ids
 	 */
 	public void batchDelete(String ids);

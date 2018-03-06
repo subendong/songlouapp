@@ -1,14 +1,12 @@
 package com.songlou.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.songlou.annotation.NeedLogin;
 import com.songlou.instrument.ResultHelper;
 import com.songlou.model.PagingModel;
@@ -135,17 +133,6 @@ public class RankController {
         ModelAndView mav = new ModelAndView("rank/list");
         mav.addObject("pagingModel", pagingModel);
         
-        return mav;
-	}
-	
-	/**
-	 * È¨ÏÞÊ÷
-	 * @return
-	 */
-	@NeedLogin
-	@RequestMapping("/tree")
-	public ModelAndView tree(){
-		ModelAndView mav = new ModelAndView("rank/tree");
         return mav;
 	}
 }

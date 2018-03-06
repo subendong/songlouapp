@@ -52,9 +52,11 @@
 												class="control-label col-md-3 col-sm-3 col-xs-2">备注<span
 												class="required">*</span></label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
-												<input type="text" name="note" id="note"
+												<%-- <input type="text" name="note" id="note"
 													value="${model.getNote()}" required="required"
 													class="form-control col-md-7 col-xs-12">
+													 --%>
+												<textarea class="form-control" rows="3" name="note" id="note" value="${model.getNote()}" required="required"></textarea>
 											</div>
 										</div>
 
@@ -90,88 +92,40 @@
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script src="<%=request.getContextPath()%>/js/zyupload/zyupload-1.0.0.min.js"></script>
 	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					//主动触发关闭按钮的单击事件
-					$("#btnCancel").click(function() {
-						parent.window.$('.layui-layer-close').trigger('click')
-					});
+		$(document).ready(function() {
+			//主动触发关闭按钮的单击事件
+			$("#btnCancel").click(function() {
+				parent.window.$('.layui-layer-close').trigger('click')
+			});
 
-					//保存按钮单击事件
-					$("#myForm").submit(
-						function(e) {
-							var param = $("#myForm").serialize();
+			//保存按钮单击事件
+			$("#myForm").submit(function(e) {
+				var param = $("#myForm").serialize();
 
-							$.ajax({
-								type : "post",
-								data : param,
-								dataType : "json",
-								success : function(data) {
-									var tip = "操作成功";
-									if(!data.success){
-										tip = data.message;
-									}
-									
-									//添加成功后，刷新当前页
-									layer.msg(tip, {
-										time : 1000
-									}, function() {/*window.location.reload();*/
-									});
-									layer.closeAll('loading');
-
-									//更新父页面数据
-									parent.window.setPage(parent.window.$("#pageIndex").val());
-								}
-							});
-
-							e.preventDefault();
-						});
-					
-					var images = new Array();
-					// 初始化插件
-					$("#zyupload").zyUpload({
-						width            :   "100%",                  // 宽度
-						height           :   "auto",                  // 宽度
-						itemWidth        :   "140px",                 // 文件项的宽度
-						itemHeight       :   "115px",                 // 文件项的高度
-						url              :   uploadUrl,		          // 上传文件的路径
-						fileType         :   ["jpg","png","js","exe","txt"],// 上传文件的类型
-						fileSize         :   51200000,                // 上传文件的大小
-						multiple         :   true,                    // 是否可以多个文件上传
-						dragDrop         :   true,                    // 是否可以拖动上传文件
-						tailor           :   true,                    // 是否可以裁剪图片
-						del              :   true,                    // 是否可以删除文件
-						finishDel        :   false,  				  // 是否在上传文件完成后删除预览
-						/* 外部获得的回调接口 */
-						onSelect: function(selectFiles, allFiles){    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
-							console.info("当前选择了以下文件：");
-							console.info(selectFiles);
-						},
-						onDelete: function(file, files){              // 删除一个文件的回调方法 file:当前删除的文件  files:删除之后的文件
-							console.info("当前删除了此文件：");
-							console.info(file.name);
-						},
-					 	onSuccess: function(file, response){          // 文件上传成功的回调方法
-							/* console.info("此文件上传成功：");
-							console.info(file.name);
-							console.info("此文件上传到服务器地址：");
-							console.info(response);
-							$("#uploadInf").append("<p>上传成功，文件地址是：" + response + "</p>"); */
-							var json = $.parseJSON(response);
-							//$("#photo").val(json.data.replace(/\\/g,"\/"));
-							images.push(json.data.replace(/\\/g,"\/"));
-							$("#photo").val(images.join(";"));
-							//$("#uploadInf").append("<p>上传成功，文件地址是：" + json.data.replace(/\\/g,"\/") + "</p>");
-						},
-						onFailure: function(file, response){          // 文件上传失败的回调方法
-							console.info("此文件上传失败：");
-							console.info(file.name);
-						},
-						onComplete: function(response){           	  // 上传完成的回调方法
-							console.info("文件上传完成");
-							console.info(response);
+				$.ajax({
+					type : "post",
+					data : param,
+					dataType : "json",
+					success : function(data) {
+						var tip = "操作成功";
+						if(!data.success){
+							tip = data.message;
 						}
-					});
+						
+						//添加成功后，刷新当前页
+						layer.msg(tip, {
+							time : 1000
+						}, function() {/*window.location.reload();*/
+						});
+						layer.closeAll('loading');
+
+						//更新父页面数据
+						parent.window.setPage(parent.window.$("#pageIndex").val());
+					}
+				});
+
+				e.preventDefault();
+			});
 		});
 	</script>
 </body>
