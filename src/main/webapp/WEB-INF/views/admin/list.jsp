@@ -32,6 +32,7 @@
 				<td class=" ">${admin.getUsername()}</td>
 				<td class=" last">
 					<a href="#" class="aEdit" adminId="${admin.getId()}">修改</a>
+					<a href="#" class="aSetRole" adminId="${admin.getId()}">分配角色</a>
 					<a href="#" class="aDelete" adminId="${admin.getId()}">删除</a>
 				</td>
 			</tr>

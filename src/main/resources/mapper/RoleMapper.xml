@@ -63,4 +63,11 @@
 			<if test="id!=null">  </if>
 		</where> -->
 	</delete>
+	
+	<!-- 查询所有角色 -->
+	<select id="selectAll" resultType="com.songlou.pojo.Role">
+		SELECT 
+		<include refid="pagingQueryField"></include>
+		FROM xin_role
+	</select>
 </mapper>

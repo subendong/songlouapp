@@ -38,19 +38,6 @@
 									<h2>
 										管理员管理 <small>管理员列表</small>
 									</h2>
-									<!-- <ul class="nav navbar-right panel_toolbox">
-										<li><a class="collapse-link"><i
-												class="fa fa-chevron-up"></i></a></li>
-										<li class="dropdown"><a href="#" class="dropdown-toggle"
-											data-toggle="dropdown" role="button" aria-expanded="false"><i
-												class="fa fa-wrench"></i></a>
-											<ul class="dropdown-menu" role="menu">
-												<li><a href="#">Settings 1</a></li>
-												<li><a href="#">Settings 2</a></li>
-											</ul></li>
-										<li><a class="close-link"><i class="fa fa-close"></i></a>
-										</li>
-									</ul> -->
 									<div class="clearfix"></div>
 								</div>
 
@@ -102,6 +89,7 @@
 		var editUrl = "<%=request.getContextPath()%>/admin/edit";
 		var listUrl = "<%=request.getContextPath()%>/admin/list";
 		var deleteUrl = "<%=request.getContextPath() %>/admin/delete";
+		var setRolesUrl = "<%=request.getContextPath() %>/admin/setroles";
 		
 		$(document).ready(function(){
 			setPage(1);
@@ -132,6 +120,18 @@
 					shade: 0.8,
 					area: ['35%', '75%'],
 					content: editUrl + "?id=" + $(this).attr("adminId") //iframe的url
+				});
+			});
+			
+			//设置角色链接单击事件
+			$(".table-responsive").on("click", "table tr td .aSetRole", function(){
+				layer.open({
+					type: 2,
+					title: '设置角色',
+					shadeClose: true,
+					shade: 0.8,
+					area: ['40%', '55%'],
+					content: setRolesUrl + "?adminId=" + $(this).attr("adminId") //iframe的url
 				});
 			});
 			

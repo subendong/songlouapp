@@ -1,5 +1,7 @@
 package com.songlou.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,12 @@ import com.songlou.annotation.NeedLogin;
 import com.songlou.instrument.ResultHelper;
 import com.songlou.model.AdminSearchModel;
 import com.songlou.model.PagingModel;
+import com.songlou.model.RoleSetModel;
 import com.songlou.pojo.Admin;
+import com.songlou.pojo.Role;
+import com.songlou.service.AdminRoleService;
 import com.songlou.service.AdminService;
+import com.songlou.service.RoleService;
 
 /**
  * http://localhost:8080/songlouapp/admin/index
@@ -23,6 +29,10 @@ import com.songlou.service.AdminService;
 public class AdminController {
 	@Autowired
     private AdminService adminService;
+	@Autowired
+    private RoleService roleService;
+	@Autowired
+    private AdminRoleService adminRoleService;
 	
 	/**
 	 * 列表页
@@ -115,4 +125,50 @@ public class AdminController {
 		adminService.batchDelete(ids);
 		return "删除成功";
 	}
+	
+	//以下部分是管理员-角色用到的，放在这个控制器里面了
+	//***************************************************************
+	
+	/**
+	 * 设置角色
+	 * @param adminId
+	 * @return
+	 */
+	@NeedLogin
+	@RequestMapping("/setroles")
+	public ModelAndView setRoles(int adminId){
+		//获取所有角色和当前用户
+		List<Role> roles = roleService.selectAll();
+		List<Role> selectedRoles = adminRoleService.selectRolesByAdminId(adminId);
+		//需要新建一个视图模型，除了包含Role所有属性外，还需要包含是否选中
+		List<RoleSetModel> roleSets = new ArrayList<>();
+		for(Role role : roles){
+			RoleSetModel roleSet = new RoleSetModel();
+			roleSet.setId(role.getId());
+			roleSet.setName(role.getName());
+			if(selectedRoles.contains(role)){
+				roleSet.setChecked(true);
+			}
+			roleSets.add(roleSet);
+		}
+		
+		ModelAndView mav = new ModelAndView("adminrole/setroles");
+		mav.addObject("adminId", adminId);
+		mav.addObject("roleSets", roleSets);
+        return mav;
+	}
+	
+	/**
+	 * 新增-保存
+	 * @return
+	 */
+	@NeedLogin
+	@ResponseBody
+	@RequestMapping(value = "/setroles", method=RequestMethod.POST)
+	public ResultHelper setRoles(int adminId, String roleIds){
+		ResultHelper resultHelper = adminRoleService.insert(adminId, roleIds);
+    	return resultHelper;
+	}
+	
+	//***************************************************************
 }

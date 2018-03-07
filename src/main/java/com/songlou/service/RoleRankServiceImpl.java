@@ -25,12 +25,13 @@ public class RoleRankServiceImpl implements RoleRankService {
 	@Override
 	public ResultHelper insert(int roleId, String rankIds) {
 		if(GlobalHelper.IsNullOrEmpty(rankIds)){
-			return new ResultHelper(1, false, "请先选择权限", null);
+			this.deleteByRoleId(roleId);
+			return new ResultHelper(0, true, "success", null);
 		}
 		
 		try {
 			//插入前把之前的都删掉
-			sqlSessionTemplate.delete("com.songlou.mapper.RoleRankMapper.deleteByRoleId", roleId);
+			this.deleteByRoleId(roleId);
 			
 			List<RoleRank> roleRanks = new ArrayList<>();
 			String[] arrRankId = rankIds.split(",");

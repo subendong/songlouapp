@@ -76,4 +76,13 @@ public class RoleServiceImpl implements RoleService {
 			sqlSessionTemplate.delete("com.songlou.mapper.RoleRankMapper.deleteByRoleId", id);
 		}
 	}
+	
+	/**
+	 * 查询所有角色
+	 * @return
+	 */
+	@Override
+	public List<Role> selectAll(){
+		return sqlSessionTemplate.selectList("com.songlou.mapper.RoleMapper.selectAll");
+	}
 }

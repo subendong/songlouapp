@@ -1,10 +1,10 @@
-package com.songlou.pojo;
+package com.songlou.model;
 
-public class Role {
+public class RoleSetModel {
 	private int id;
 	private String name;//½ÇÉ«Ãû
 	private String note;//±¸×¢
-	
+	private boolean checked;
 	public int getId() {
 		return id;
 	}
@@ -23,10 +23,10 @@ public class Role {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	@Override
-	public boolean equals(Object obj) {  
-    	Role role = (Role) obj;
-    	return this.id == role.id;
+	public boolean isChecked() {
+		return checked;
+	}
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 }

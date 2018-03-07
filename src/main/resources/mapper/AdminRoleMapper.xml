@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.songlou.mapper.AdminRoleMapper">
+
+	<!-- 插入数据 -->
+	<insert id="insert" parameterType="com.songlou.pojo.AdminRole">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into xin_admin_role(adminId, roleId)
+		values(#{adminId}, #{roleId})
+	</insert>
+	
+	<!-- 根据管理员ID查询 -->
+	<select id="selectRolesByAdminId" parameterType="int" resultType="com.songlou.pojo.Role">
+		SELECT b.id,b.name,b.note
+		FROM xin_admin_role as a join xin_role as b on a.roleId = b.id WHERE a.adminId = #{adminId}
+	</select>
+	
+	<!-- 根据管理员ID删除-->
+	<delete id="deleteByAdminId" parameterType="int">
+          DELETE FROM xin_admin_role WHERE adminId=#{adminId}
+	</delete>
+	
+</mapper>

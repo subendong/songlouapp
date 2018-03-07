@@ -60,20 +60,16 @@
 										</div>
 										<div class="form-group">
 											<label for="controller"
-												class="control-label col-md-3 col-sm-3 col-xs-2">控制器<span
-												class="required">*</span></label>
+												class="control-label col-md-3 col-sm-3 col-xs-2">控制器</label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
-												<input type="text" name="controller" id="controller" value="${model.getController()}"
-													required="required" class="form-control col-md-7 col-xs-12">
+												<input type="text" name="controller" id="controller" value="${model.getController()}" class="form-control col-md-7 col-xs-12">
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="action"
-												class="control-label col-md-3 col-sm-3 col-xs-2">方法<span
-												class="required">*</span></label>
+												class="control-label col-md-3 col-sm-3 col-xs-2">方法</label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
-												<input type="text" name="action" id="action" value="${model.getAction()}"
-													required="required" class="form-control col-md-7 col-xs-12">
+												<input type="text" name="action" id="action" value="${model.getAction()}" class="form-control col-md-7 col-xs-12">
 											</div>
 										</div>
 

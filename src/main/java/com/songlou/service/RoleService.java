@@ -1,5 +1,7 @@
 package com.songlou.service;
 
+import java.util.List;
+
 import com.songlou.instrument.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RoleSearchModel;
@@ -42,4 +44,10 @@ public interface RoleService {
 	 * @param ids
 	 */
 	public void batchDelete(String ids);
+	
+	/**
+	 * 查询所有角色
+	 * @return
+	 */
+	public List<Role> selectAll();
 }

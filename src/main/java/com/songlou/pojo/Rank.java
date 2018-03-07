@@ -79,4 +79,10 @@ public class Rank {
 				+ ", controller=" + controller + ", action=" + action + ", leftShow=" + leftShow + ", innerOrder="
 				+ innerOrder + ", outerOrder=" + outerOrder + ", depth=" + depth + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {  
+    	Rank rank = (Rank) obj;
+    	return this.id == rank.id;
+	}
 }

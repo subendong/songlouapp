@@ -81,27 +81,13 @@ public class RoleRankController {
 			rankTree.setpId(rank.getParentId());
 			rankTree.setName(rank.getRankName());
 			rankTree.setOpen(false);
-			if(this.contains(selectedRanks, rank)){
+			if(selectedRanks.contains(rank)){
 				rankTree.setChecked(true);
 			}
+			
 			rankTrees.add(rankTree);
 		}
 		
 		return rankTrees;
-	}
-	
-	/**
-	 * 是否包含指定项
-	 * @param selectedRanks以获取的所有权限
-	 * @param rank某个权限
-	 * @return
-	 */
-	private boolean contains(List<Rank> ranks, Rank rank){
-		for(Rank r : ranks){
-			if(r.getId() == rank.getId()){
-				return true;
-			}
-		}
-		return false;
 	}
 }

@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>新增/修改权限</title>
+	<title>分配角色</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,32 +24,19 @@
 
 
 						<div class="col-md-12 col-sm-12 col-xs-12">
-							<div class="x_panel">
+							<div class="x_panel" style="padding:0px;">
 								<div class="x_content">
-									<br>
 									<form name="myForm" id="myForm" method="post"
 										data-parsley-validate class="form-horizontal form-label-left">
-										<div class="form-group">
-											<label for="name"
-												class="control-label col-md-3 col-sm-3 col-xs-2">角色名称<span
-												class="required">*</span></label>
-											<div class="col-md-6 col-sm-6 col-xs-10">
-												<input type="text" name="name" id="name"
-													value="${model.getName()}" required="required"
-													class="form-control col-md-7 col-xs-12">
-											</div>
-										</div>
-
-										<div class="form-group">
-											<label for="note"
-												class="control-label col-md-3 col-sm-3 col-xs-2">备注<span
-												class="required">*</span></label>
-											<div class="col-md-6 col-sm-6 col-xs-10">
-												<%-- <input type="text" name="note" id="note"
-													value="${model.getNote()}" required="required"
-													class="form-control col-md-7 col-xs-12">
-													 --%>
-												<textarea class="form-control" rows="3" name="note" id="note" required="required">${model.getNote()}</textarea>
+										<div class="form-group" style="height:300px; overflow-y:auto; overflow-x:hidden; margin:10px 10px 0px 10px;">
+											<div class="row">
+												<ul class="list-unstyled">
+													<c:forEach var="role" items="${roleSets}">
+														<li class="col-xs-4">
+															<input type="checkbox" name="id" value="${role.getId()}" ${role.isChecked()?"checked='checked'":"" } />&nbsp;${role.getName()}
+														</li>
+													</c:forEach>
+												</ul>
 											</div>
 										</div>
 
@@ -62,8 +48,7 @@
 											</div>
 										</div>
 
-										<input type="hidden" name="id" id="id"
-											value="${model.getId()}" />
+										<input type="hidden" name="adminId" id="adminId" value="${adminId}" />
 
 									</form>
 								</div>
@@ -82,9 +67,17 @@
 	<!-- common js -->
 	<%@ include file="/WEB-INF/views/commonjs.jsp"%>
 	<!-- /common js -->
+	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			//用icheck美化checkbox
+			$("input[type='checkbox']").iCheck({
+			    checkboxClass: 'icheckbox_minimal-grey',
+			    radioClass: 'iradio_minimal-grey',
+			    increaseArea: '20%'
+			});
+			
 			//主动触发关闭按钮的单击事件
 			$("#btnCancel").click(function() {
 				parent.window.$('.layui-layer-close').trigger('click')
@@ -92,7 +85,10 @@
 
 			//保存按钮单击事件
 			$("#myForm").submit(function(e) {
-				var param = $("#myForm").serialize();
+				var param = {
+					admin: $("#adminId").val(),
+					roleIds: getIds()
+				};
 
 				$.ajax({
 					type : "post",
@@ -100,25 +96,34 @@
 					dataType : "json",
 					success : function(data) {
 						var tip = "操作成功";
-						if(!data.success){
-							tip = data.message;
-						}
+						if(!data.success){tip = data.message;}
 						
 						//添加成功后，刷新当前页
-						layer.msg(tip, {
-							time : 1000
-						}, function() {/*window.location.reload();*/
-						});
+						layer.msg(tip, {time : 1000}, function() {/*window.location.reload();*/});
 						layer.closeAll('loading');
-
-						//更新父页面数据
-						parent.window.setPage(parent.window.$("#pageIndex").val());
 					}
 				});
 
 				e.preventDefault();
 			});
 		});
+		
+		//获取选中复选框的值
+        function getIds() {
+            var ids = "";
+            $("input[name='id']").each(function() {
+                var checked = $(this).prop("checked");
+                if (checked) {
+                    ids += $(this).val() + ",";
+                }
+            });
+
+            if (ids.length > 0) {
+                ids = ids.substr(0, ids.length - 1);
+            }
+
+            return ids;
+        }
 	</script>
 </body>
 </html>

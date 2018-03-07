@@ -47,4 +47,10 @@ public interface RoleMapper {
 	 * @param ids
 	 */
 	public void delete(int id);
+	
+	/**
+	 * 查询所有角色
+	 * @return
+	 */
+	public List<Role> selectAll();
 }

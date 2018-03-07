@@ -13,7 +13,6 @@
 	<%@ include file="/WEB-INF/views/commoncss.jsp"%>
 	<!-- /common css -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/pagination.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -82,7 +81,6 @@
 	<!-- /common js -->
 	
 	<script src="<%=request.getContextPath()%>/js/jquery.pagination.js"></script>
-	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
 	<script type="text/javascript">
 		//操作按钮相关链接
@@ -187,13 +185,6 @@
 				dataType : "html",
 				success : function(data) {
 					$(".table-responsive").html(data);
-					
-					//用icheck美化checkbox
-					$("input[type='checkbox']").iCheck({
-					    checkboxClass: 'icheckbox_minimal-grey',
-					    radioClass: 'iradio_minimal-grey',
-					    increaseArea: '20%'
-					});
 					
 					//处理分页效果
 					var totalRecord = $("#totalRecord").val();
