@@ -1,6 +1,8 @@
 package com.songlou.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,10 @@ import com.songlou.instrument.Md5Helper;
 import com.songlou.instrument.ResultHelper;
 import com.songlou.model.SiteModel;
 import com.songlou.pojo.Admin;
+import com.songlou.pojo.Rank;
+import com.songlou.pojo.Role;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 登录服务类
@@ -25,6 +31,10 @@ import com.songlou.pojo.Admin;
 public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	@Autowired
+	private AdminRoleService adminRoleService;
+	@Autowired
+	private RoleRankService roleRankService;
 
 	/**
 	 * 登录
@@ -99,5 +109,29 @@ public class LoginServiceImpl implements LoginService {
 		}
 		
 		return new ResultHelper(0, true, "success", admin);
+	}
+	
+	/**
+	 * 获取权限列表
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Rank> getRankListSession(HttpServletRequest request, Admin admin){
+		HttpSession session = request.getSession();
+		if(session.getAttribute(SiteModel.sessionKey) == null){
+			List<Rank> ranks = new ArrayList<Rank>();
+			//查询当前管理员/用户所拥有的角色
+			List<Role> roles = adminRoleService.selectRolesByAdminId(admin.getId());
+			//查询角色拥有的权限
+			for(Role role : roles){
+				List<Rank> rs = roleRankService.selectRanksByRoleId(role.getId());
+				ranks.addAll(rs);
+			}
+			session.setAttribute(SiteModel.sessionKey, ranks);
+		}
+		
+		List<Rank> ranks = (ArrayList<Rank>)session.getAttribute(SiteModel.sessionKey);
+		
+		return ranks;
 	}
 }

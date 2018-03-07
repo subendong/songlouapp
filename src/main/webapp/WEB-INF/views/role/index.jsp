@@ -104,7 +104,7 @@
 					type: 2,
 					title: '新增/修改',
 					shadeClose: true,
-					shade: 0.8,
+					shade: 0.5,
 					area: ['35%', '35%'],
 					content: addUrl //iframe的url
 				});
@@ -116,7 +116,7 @@
 					type: 2,
 					title: '新增/修改',
 					shadeClose: true,
-					shade: 0.8,
+					shade: 0.5,
 					area: ['35%', '35%'],
 					content: editUrl + "?id=" + $(this).attr("roleId") //iframe的url
 				});

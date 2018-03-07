@@ -15,7 +15,7 @@
 				<li class=""><a href="javascript:;"
 					class="user-profile dropdown-toggle" data-toggle="dropdown"
 					aria-expanded="false"> <img
-						src="<%=pathHeader + SessionUtil.getCurrentAdmin(request).getPhoto()%>" />John Doe <span
+						src="<%=pathHeader + SessionUtil.getCurrentAdmin(request).getPhoto()%>" /><%=SessionUtil.getCurrentAdmin(request).getUsername()%> <span
 						class=" fa fa-angle-down"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-usermenu pull-right">

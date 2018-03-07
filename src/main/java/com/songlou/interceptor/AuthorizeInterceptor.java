@@ -1,5 +1,7 @@
 package com.songlou.interceptor;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import com.songlou.annotation.NeedLogin;
 import com.songlou.instrument.GlobalHelper;
 import com.songlou.instrument.ResultHelper;
 import com.songlou.pojo.Admin;
+import com.songlou.pojo.Rank;
 import com.songlou.service.AdminService;
 import com.songlou.service.LoginService;
 /*
@@ -77,7 +80,19 @@ public class AuthorizeInterceptor  extends HandlerInterceptorAdapter {
         String uri = request.getRequestURI();///songlouapp/admin/list
         String path = request.getContextPath();///songlouapp
         path = uri.replaceFirst(path, "").replaceFirst("/",  "");//第一个斜杠不需要，也需要替换掉
-        //从session中取当前用户拥有的权限，如果没有，则给session赋值
+        //从session中取当前用户拥有的权限
+        List<Rank> ranks = loginService.getRankListSession(request, admin);
+        boolean isHaveRank = false;
+        for(Rank rank: ranks){
+        	String tempPath = rank.getController() + "/" + rank.getAction();
+        	if(path.equals(tempPath)){
+        		isHaveRank = true;
+        		break;
+        	}
+        }
+        if(!isHaveRank){
+        	return new ResultHelper(1, false, "没有权限", null);
+        }
 		
 		return new ResultHelper(0, true, "success", null);
 	}

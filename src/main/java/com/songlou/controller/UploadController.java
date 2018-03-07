@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.songlou.annotation.NeedLogin;
 import com.songlou.instrument.ResultHelper;
 
 @Controller
@@ -22,6 +22,7 @@ public class UploadController {
 	 * @param file
 	 * @return
 	 */
+	@NeedLogin
 	@RequestMapping(value = "/index", method=RequestMethod.POST)
 	@ResponseBody
 	public ResultHelper upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws Exception{			
