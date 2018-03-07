@@ -2,8 +2,9 @@
 <%@page import="com.songlou.pojo.Admin"%>
 <%@page import="com.songlou.pojo.Rank"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String pathLeft = request.getContextPath();
 	Admin admin = SessionUtil.getCurrentAdmin(request);
@@ -42,6 +43,23 @@
 							<li><a href="index2.html">Dashboard2</a></li>
 							<li><a href="index3.html">Dashboard3</a></li>
 						</ul></li>
+						<%
+							List<Rank> rootRanks = com.songlou.service.SessionUtil.getRootRanks(ranks);
+							for(Rank rank : rootRanks){
+						%>
+							<li><a><i class="fa fa-home"></i> <%=rank.getRankName() %> <span class="fa fa-chevron-down"></span></a><ul class="nav child_menu">
+						<%	
+								List<Rank> childRanks = com.songlou.service.SessionUtil.getChildRanks(ranks, rank.getId());
+								for(Rank r : childRanks){
+									%>
+									<li><a href="<%=pathLeft + "/" + r.getController() + "/" + r.getAction()%>"><%=r.getRankName() %></a></li>
+									<%
+								}
+								%>
+							</ul></li>
+						<%
+							}
+						%>
 				</ul>
 			</div>
 		</div>
