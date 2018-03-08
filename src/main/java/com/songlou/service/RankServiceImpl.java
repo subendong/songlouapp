@@ -57,7 +57,7 @@ public class RankServiceImpl implements RankService {
 		//根据rankId获取数据库中的数据，将数据库中的innerOrder和outerOrder赋值给rank
 		Rank dbRank = selectById(rank.getId());		
 		if(rank.getParentId() != dbRank.getParentId()){
-			return new ResultHelper(1, false, "已存在权限不能修改父级权限", null);
+			return new ResultHelper(1, false, "已存在资源不能修改父级资源", null);
 		}
 		
 		// 根据parentId，查找出父类
@@ -142,6 +142,8 @@ public class RankServiceImpl implements RankService {
 			parentRank.setChild(parentRank.getChild() - 1);
 			sqlSessionTemplate.update("com.songlou.mapper.RankMapper.update", parentRank);
 		}
+		//删除角色-资源关系表里的相关数据
+		sqlSessionTemplate.delete("com.songlou.mapper.RoleRankMapper.deleteByRankId", rank.getId());
 		//最后做删除操作
 		sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
 		

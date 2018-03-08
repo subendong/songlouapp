@@ -23,4 +23,8 @@
           DELETE FROM xin_role_rank WHERE roleId=#{roleId}
 	</delete>
 	
+	<!-- 根据资源ID删除 -->
+	<delete id="deleteByRankId" parameterType="int">
+          DELETE FROM xin_role_rank WHERE rankId=#{rankId}
+	</delete>
 </mapper>

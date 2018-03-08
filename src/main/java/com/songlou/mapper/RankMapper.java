@@ -55,14 +55,14 @@ public interface RankMapper {
 	public void delete(Rank rank);
 	
 	/**
-	 * 获取同级最大排序值 
+	 * 取同级innerOrder最大排序值
 	 * @param parentId
 	 * @return
 	 */
 	public int selectMaxInnerOrder(int parentId);
 	
 	/**
-	 * 获取同rootId最大排序值
+	 * 获取同级outerOrder最大排序值
 	 * @param parentId
 	 * @return
 	 */

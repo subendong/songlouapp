@@ -1,5 +1,6 @@
 package com.songlou.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,10 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.songlou.annotation.NeedLogin;
 import com.songlou.instrument.ResultHelper;
 import com.songlou.model.PagingModel;
 import com.songlou.model.RankSearchModel;
+import com.songlou.model.RankTreeModel;
 import com.songlou.pojo.Rank;
 import com.songlou.service.RankService;
 
@@ -34,9 +39,19 @@ public class RankController {
 	public ModelAndView add(){
 		Rank rank = new Rank();
 		List<Rank> ranks = rankService.selectAll();
+		List<RankTreeModel> rankTrees = this.getRankTrees(ranks);
+		String strRankTrees = "";
+		try {
+			strRankTrees = new ObjectMapper().writeValueAsString(rankTrees);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
 		ModelAndView mav = new ModelAndView("rank/edit");
 		mav.addObject("model", rank);
-		mav.addObject("ranks", ranks);
+		mav.addObject("parentRankName", "");
+		//mav.addObject("ranks", ranks);
+		mav.addObject("strRankTrees", strRankTrees);
         return mav;
 	}
 	
@@ -74,10 +89,21 @@ public class RankController {
 	@RequestMapping("/edit")
 	public ModelAndView edit(int id){
 		Rank rank = rankService.selectById(id);
+		Rank parentRank = rankService.selectById(rank.getParentId());
 		List<Rank> ranks = rankService.selectAll();
+		List<RankTreeModel> rankTrees = this.getRankTrees(ranks);
+		String strRankTrees = "";
+		try {
+			strRankTrees = new ObjectMapper().writeValueAsString(rankTrees);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
 		ModelAndView mav = new ModelAndView("rank/edit");
 		mav.addObject("model", rank);
-		mav.addObject("ranks", ranks);
+		mav.addObject("parentRankName", parentRank == null ? "" : parentRank.getRankName());
+		//mav.addObject("ranks", ranks);
+		mav.addObject("strRankTrees", strRankTrees);
         return mav;
 	}
 	
@@ -134,5 +160,24 @@ public class RankController {
         mav.addObject("pagingModel", pagingModel);
         
         return mav;
+	}
+	
+	/**
+	 * 私有方法-将权限列表转化成视图需要的集合
+	 * @param ranks
+	 * @return
+	 */
+	private List<RankTreeModel> getRankTrees(List<Rank> ranks){
+		List<RankTreeModel> rankTrees = new ArrayList<RankTreeModel>();
+		for(Rank rank : ranks){
+			RankTreeModel rankTree = new RankTreeModel();
+			rankTree.setId(rank.getId());
+			rankTree.setpId(rank.getParentId());
+			rankTree.setName(rank.getRankName());
+			rankTree.setOpen(true);			
+			rankTrees.add(rankTree);
+		}
+		
+		return rankTrees;
 	}
 }

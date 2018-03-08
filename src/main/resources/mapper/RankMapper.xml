@@ -65,18 +65,18 @@
 		</where>
 	</delete>
 	
-	<!-- 获取同级最大排序值 -->
+	<!-- 获取同级innerOrder最大排序值 -->
 	<select id="selectMaxInnerOrder" parameterType="int" resultType="int">
 		SELECT MAX(innerOrder)
 		FROM xin_rank
 		WHERE parentId=#{parentId}
 	</select>
 	
-	<!-- 获取同rootId最大排序值 -->
+	<!-- 获取同级outerOrder最大排序值 -->
 	<select id="selectMaxOuterOrder" parameterType="int" resultType="int">
 		SELECT IFNULL(MAX(outerOrder), 0)
 		FROM xin_rank
-		WHERE rootId=#{rootId}
+		WHERE parentId=#{parentId}
 	</select>
 	
 	<!-- 对排序大于该记录的同级权限的排序做-1处理 -->

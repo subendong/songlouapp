@@ -4,18 +4,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>新增/修改权限</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- common css -->
-<%@ include file="/WEB-INF/views/commoncss.jsp"%>
-<!-- /common css -->
-<link rel="stylesheet"
-	href="<%=pathCss%>/js/icheck/skins/minimal/grey.css" />
+	<title>新增/修改资源</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- common css -->
+	<%@ include file="/WEB-INF/views/commoncss.jsp"%>
+	<!-- /common css -->
+	<!-- 复选框美化插件 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/icheck/skins/minimal/grey.css" />
+	<!-- 树形菜单插件 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/tree/ranktree.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/tree/zTreeStyle/zTreeStyle.css" />
+	<style type="text/css">
+		/*重新定义样式，不然树形会有问题*/
+		#treeDemo .button{box-shadow:none;}
+	</style>
 </head>
 <body class="nav-md">
+	<div id="menuContent" class="menuContent" style="position: absolute; display:none;">				
+		<ul id="treeDemo" class="ztree" style="margin-top:0px; z-index:100000; position:absolute; 
+		border: 1px solid #ccc; background-color: #fff; width:100%; height:100%; overflow-y:auto;"></ul>
+	</div>
+								
+								
 	<div class="container body">
 		<div class="main_container">
 			<!-- page content -->
@@ -34,10 +47,16 @@
 
 										<div class="form-group">
 											<label for="parentId"
-												class="control-label col-md-3 col-sm-3 col-xs-2">上级资源<span
-												class="required">*</span></label>
+												class="control-label col-md-3 col-sm-3 col-xs-2">上级资源</label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
-												<select class="form-control" name="parentId" id="parentId" ${model.getParentId() == 0 ? "" : "readonly=\"readonly\""}>
+												<input type="text" name="parentName" id="parentName" value="${parentRankName}"
+												  ${model.getId() > 0 ? "readonly=\"readonly\"" : ""} class="form-control col-md-7 col-xs-12" />
+												<input type="hidden" name="parentId" id="parentId" 
+												value="${model.getParentId()}" required="required" class="form-control col-md-7 col-xs-12" />
+													
+													
+												
+												<%-- <select class="form-control" name="parentId" id="parentId" ${model.getId() > 0 ? "" : "readonly=\"readonly\""}>
 													<option value="0">请选择</option>
 													<c:forEach var="rank" items="${ranks}">
 														<option value="${rank.getId()}">
@@ -46,7 +65,7 @@
 															</c:forEach> ${rank.getRankName() }
 														</option>
 													</c:forEach>
-												</select>
+												</select> --%>
 											</div>
 										</div>
 										<div class="form-group">
@@ -109,10 +128,68 @@
 	<!-- common js -->
 	<%@ include file="/WEB-INF/views/commonjs.jsp"%>
 	<!-- /common js -->
-	<script src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/icheck/icheck.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/tree/jquery.ztree.core.min.js"></script>
 	<script type="text/javascript">
+		var setting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				//在这里可以添加多个事件
+				onClick: onClick
+			}
+		};
+	
+		var zNodes =${strRankTrees};
+		
+		function onClick(e, treeId, treeNode) {
+			$("#parentId").val(treeNode.id);
+			$("#parentName").val(treeNode.name);
+			hideMenu();
+		}
+
+		function showMenu() {
+			if($("#parentName").attr("readonly") == "readonly"){
+				return;
+			}
+			
+			var obj = $("#parentName");
+			var offset = $("#parentName").offset();
+			var width = (obj.width() + 22) + "px";
+			var height = ($(document.body).height() / 1.5) + "px";
+			$("#menuContent").css({left: offset.left + "px", top: offset.top + obj.outerHeight() + "px", width: width, height: height}).slideDown("fast");
+
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+		
+		
+		
+		
+		
 		$(document).ready(function() {
+			//树插件
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+			$("#parentName").click(function(){
+				showMenu();
+			});
+			
+			
 			//页面加载完后，给权限下拉框赋默认值
 			$("#parentId").val($("#hiddenParentId").val());
 			$("#leftShow").iCheck($("#hiddenLeftShow").val() == 1 ? "check" : "uncheck");

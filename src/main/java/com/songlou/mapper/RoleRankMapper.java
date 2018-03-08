@@ -27,4 +27,10 @@ public interface RoleRankMapper {
 	 * @param ids
 	 */
 	public void deleteByRoleId(int roleId);
+	
+	/**
+	 * 根据资源ID删除
+	 * @param ids
+	 */
+	public void deleteByRankId(int roleId);
 }
