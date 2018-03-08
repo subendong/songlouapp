@@ -1,5 +1,8 @@
 package com.songlou.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,5 +47,20 @@ public class LoginController {
 	public ResultHelper index(Admin admin, HttpServletResponse response){
 		ResultHelper resultHelper = loginService.Login(admin, response);
 		return resultHelper;
+	}
+	
+	/**
+	 * ÍË³ö
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = "/logout")
+	public void logout(HttpServletRequest request, HttpServletResponse response){
+		loginService.logout(request, response);
+		try {
+			response.sendRedirect(request.getContextPath() + "/login/index");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

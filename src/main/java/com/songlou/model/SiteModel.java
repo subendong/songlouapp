@@ -4,7 +4,7 @@ public class SiteModel {
 	/**
 	 * 存放管理员登录信息的cookie
 	 */
-	public static final String cookieKey = "songlouappmanage";
+	public static final String cookieKey = "admincookie";
 	
 	/**
 	 * 存放管理员登录信息的session

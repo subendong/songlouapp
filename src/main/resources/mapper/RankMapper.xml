@@ -3,7 +3,7 @@
 <mapper namespace="com.songlou.mapper.RankMapper">
 	<!-- 定义查询的字段 -->
 	<sql id="pagingQueryField">
-		id,rootId,parentId,rankName,controller,action,leftShow,innerOrder,outerOrder,depth
+		id,rootId,parentId,rankName,controller,action,leftShow,innerOrder,outerOrder,depth,child
 	</sql>
 	<!-- 
 		定义分页查询的条件
@@ -53,7 +53,7 @@
 	<update id="update" parameterType="com.songlou.pojo.Rank">
 		update xin_rank 
 		set rootId=#{rootId}, parentId=#{parentId}, rankName=#{rankName}, controller=#{controller}, action=#{action}, leftShow=#{leftShow}, 
-			innerOrder=#{innerOrder}, outerOrder=#{outerOrder}, depth=#{depth} 
+			innerOrder=#{innerOrder}, outerOrder=#{outerOrder}, depth=#{depth}, child=#{child} 
 		where id=#{id}
 	</update>
 	

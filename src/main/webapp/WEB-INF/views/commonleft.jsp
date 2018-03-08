@@ -1,3 +1,4 @@
+<%@page import="com.songlou.service.LeftMenuService"%>
 <%@page import="com.songlou.service.SessionUtil"%>
 <%@page import="com.songlou.pojo.Admin"%>
 <%@page import="com.songlou.pojo.Rank"%>
@@ -8,7 +9,7 @@
 <%
 	String pathLeft = request.getContextPath();
 	Admin admin = SessionUtil.getCurrentAdmin(request);
-	List<Rank> ranks = SessionUtil.getRankListSession(request, admin);
+	List<Rank> ranks = SessionUtil.getRankListFromSession(request, admin);
 %>
 <div class="col-md-3 left_col">
 	<div class="left_col scroll-view">
@@ -35,32 +36,7 @@
 		<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 			<div class="menu_section">
 				<h3>General</h3>
-				<ul class="nav side-menu">
-					<li><a><i class="fa fa-home"></i> Home <span
-							class="fa fa-chevron-down"></span></a>
-						<ul class="nav child_menu">
-							<li><a href="index.html">Dashboard</a></li>
-							<li><a href="index2.html">Dashboard2</a></li>
-							<li><a href="index3.html">Dashboard3</a></li>
-						</ul></li>
-						<%
-							List<Rank> rootRanks = com.songlou.service.SessionUtil.getRootRanks(ranks);
-							for(Rank rank : rootRanks){
-						%>
-							<li><a><i class="fa fa-home"></i> <%=rank.getRankName() %> <span class="fa fa-chevron-down"></span></a><ul class="nav child_menu">
-						<%	
-								List<Rank> childRanks = com.songlou.service.SessionUtil.getChildRanks(ranks, rank.getId());
-								for(Rank r : childRanks){
-									%>
-									<li><a href="<%=pathLeft + "/" + r.getController() + "/" + r.getAction()%>"><%=r.getRankName() %></a></li>
-									<%
-								}
-								%>
-							</ul></li>
-						<%
-							}
-						%>
-				</ul>
+				<%=LeftMenuService.getMenuHtml(ranks, request) %>
 			</div>
 		</div>
 		<!-- /sidebar menu -->
@@ -74,7 +50,7 @@
 			</a> <a data-toggle="tooltip" data-placement="top" title="Lock"> <span
 				class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
 			</a> <a data-toggle="tooltip" data-placement="top" title="Logout"
-				href="login.html"> <span class="glyphicon glyphicon-off"
+				href="<%=pathLeft + "/login/logout"%>"> <span class="glyphicon glyphicon-off"
 				aria-hidden="true"></span>
 			</a>
 		</div>

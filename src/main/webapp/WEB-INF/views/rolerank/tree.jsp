@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>分配权限</title>
+	<title>分配资源</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +14,7 @@
 	<div class="input-group" style="padding:10px; border-bottom:1px solid #ccc; ">
 		<button type="button" class="btn btn-info" id="btnSave">保存</button>
 		<button type="button" class="btn btn-info" id="btnOpenAll">展开</button>
-		<button type="button" class="btn btn-info" id="btnCloseAll">收起</button>
+		<button type="button" class="btn btn-info" id="btnCloseAll" style="display:none;">收起</button>
 	</div>
 	<div class="zTreeDemoBackground left">
 		<ul id="treeDemo" class="ztree"></ul>
@@ -83,12 +83,16 @@
 			
 			//展开所有节点
 			$("#btnOpenAll").click(function(){
+				$(this).hide();
+				$("#btnCloseAll").show();
 				var treeObj = $.fn.zTree.getZTreeObj("treeDemo"); 
 				treeObj.expandAll(true); 
 			});
 			
 			//收起所有节点
 			$("#btnCloseAll").click(function(){
+				$(this).hide();
+				$("#btnOpenAll").show();
 				var treeObj = $.fn.zTree.getZTreeObj("treeDemo"); 
 				//获取 zTree 的全部节点数据将节点数据转换为简单 Array 格式
 		        var nodes = treeObj.transformToArray(treeObj.getNodes());
@@ -105,7 +109,7 @@
 			
 			//保存
 			$("#btnSave").click(function(){
-				//先获取所有选中的权限
+				//先获取所有选中的资源
 				var treeObj = $.fn.zTree.getZTreeObj("treeDemo"); 
 	            nodes=treeObj.getCheckedNodes(true);
 	            var ids = new Array();

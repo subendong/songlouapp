@@ -34,7 +34,7 @@
 
 										<div class="form-group">
 											<label for="parentId"
-												class="control-label col-md-3 col-sm-3 col-xs-2">上级权限<span
+												class="control-label col-md-3 col-sm-3 col-xs-2">上级资源<span
 												class="required">*</span></label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
 												<select class="form-control" name="parentId" id="parentId" ${model.getParentId() == 0 ? "" : "readonly=\"readonly\""}>
@@ -51,7 +51,7 @@
 										</div>
 										<div class="form-group">
 											<label for="rankName"
-												class="control-label col-md-3 col-sm-3 col-xs-2">权限名称<span
+												class="control-label col-md-3 col-sm-3 col-xs-2">资源名称<span
 												class="required">*</span></label>
 											<div class="col-md-6 col-sm-6 col-xs-10">
 												<input type="text" name="rankName" id="rankName" value="${model.getRankName()}"

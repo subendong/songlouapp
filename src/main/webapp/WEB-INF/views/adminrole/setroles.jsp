@@ -33,7 +33,8 @@
 												<ul class="list-unstyled">
 													<c:forEach var="role" items="${roleSets}">
 														<li class="col-xs-4">
-															<input type="checkbox" name="id" value="${role.getId()}" ${role.isChecked()?"checked='checked'":"" } />&nbsp;${role.getName()}
+															<input type="checkbox" name="id" id="id_${role.getId()}" value="${role.getId()}" ${role.isChecked()?"checked='checked'":"" } />
+															&nbsp;<label for="id_${role.getId()}">${role.getName()}</label>
 														</li>
 													</c:forEach>
 												</ul>

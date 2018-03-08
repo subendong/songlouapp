@@ -122,11 +122,11 @@
 				});
 			});
 			
-			//分配权限链接单击事件
+			//分配资源链接单击事件
 			$(".table-responsive").on("click", "table tr td .aSetRank", function(){
 				layer.open({
 					type: 2,
-					title: '分配权限',
+					title: '分配资源',
 					shadeClose: true,
 					shade: 0.5,
 					area: ['40%', '80%'],

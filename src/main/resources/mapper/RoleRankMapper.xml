@@ -14,7 +14,7 @@
 	
 	<!-- 根据角色ID查询 -->
 	<select id="selectRanksByRoleId" parameterType="int" resultType="com.songlou.pojo.Rank">
-		SELECT b.id,b.rootId,b.parentId,b.rankName,b.controller,b.action,b.leftShow,b.innerOrder,b.outerOrder,b.depth
+		SELECT b.id,b.rootId,b.parentId,b.rankName,b.controller,b.action,b.leftShow,b.innerOrder,b.outerOrder,b.depth,b.child
 		FROM xin_role_rank as a join xin_rank as b on a.rankId = b.id WHERE a.roleId = #{roleId}
 	</select>
 	

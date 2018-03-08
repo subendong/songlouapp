@@ -19,6 +19,12 @@ public interface LoginService {
 	public ResultHelper Login(Admin admin, HttpServletResponse response);
 	
 	/**
+	 * 退出
+	 * @return
+	 */
+	public ResultHelper logout(HttpServletRequest request, HttpServletResponse response);
+	
+	/**
 	 * 从cookie中获取当前用户信息
 	 * @param request
 	 * @return

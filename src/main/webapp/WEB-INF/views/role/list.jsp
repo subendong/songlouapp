@@ -31,7 +31,7 @@
 				<td class=" ">${role.getName()}</td>
 				<td class=" last">
 					<a href="#" class="aEdit" roleId="${role.getId()}">修改</a>
-					<a href="#" class="aSetRank" roleId="${role.getId()}">分配权限</a>
+					<a href="#" class="aSetRank" roleId="${role.getId()}">分配资源</a>
 					<a href="#" class="aDelete" roleId="${role.getId()}">删除</a>
 				</td>
 			</tr>

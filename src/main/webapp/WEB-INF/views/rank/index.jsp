@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>权限管理</title>
+	<title>资源管理</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +35,7 @@
 							<div class="x_panel">
 								<div class="x_title">
 									<h2>
-										权限管理 <small>权限列表</small>
+										资源管理 <small>资源列表</small>
 									</h2>
 									<div class="clearfix"></div>
 								</div>

@@ -40,6 +40,11 @@ public class RankServiceImpl implements RankService {
 		rank.setInnerOrder(innerOrder + 1);
 		rank.setOuterOrder(outerOrder + 1);		
 		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.update", rank);
+		//更新父类的child数量
+		if(parentRank != null){
+			parentRank.setChild(parentRank.getChild() + 1);
+			sqlSessionTemplate.update("com.songlou.mapper.RankMapper.update", parentRank);
+		}
 		
 		return new ResultHelper(0, true, "添加成功", null);
 	}
@@ -131,6 +136,12 @@ public class RankServiceImpl implements RankService {
 		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.updateInnerOrder", rank);
 		//对排序大于该记录的同rootId权限的排序做-1处理
 		sqlSessionTemplate.update("com.songlou.mapper.RankMapper.updateOuterOrder", rank);
+		//更新父类的child
+		Rank parentRank = selectById(rank.getParentId());
+		if(parentRank != null){
+			parentRank.setChild(parentRank.getChild() - 1);
+			sqlSessionTemplate.update("com.songlou.mapper.RankMapper.update", parentRank);
+		}
 		//最后做删除操作
 		sqlSessionTemplate.delete("com.songlou.mapper.RankMapper.delete", rank);
 		

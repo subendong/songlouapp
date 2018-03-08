@@ -77,6 +77,34 @@ public class LoginServiceImpl implements LoginService {
         
 		return new ResultHelper(0, true, "success", null);
 	}
+	
+	/**
+	 * 退出
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ResultHelper logout(HttpServletRequest request, HttpServletResponse response){
+		//将cookie设置为立即过期
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null && cookies.length > 0) {
+            for(Cookie cookie : cookies){
+                //如果找到同名cookie，就将value设置为null，将存活时间设置为0，再替换掉原cookie，这样就相当于删除了。
+                if(cookie.getName().equals(SiteModel.cookieKey)){
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                    break;
+                }
+            }
+        }
+		//删除存放用户权限列表的session
+		if(request.getSession().getAttribute(SiteModel.sessionKey) != null){
+			request.getSession().setAttribute(SiteModel.sessionKey, null);
+		}
+		return new ResultHelper(0, true, "success", null);
+	}
 
 	/**
 	 * 从cookie中获取当前用户信息
@@ -113,7 +141,6 @@ public class LoginServiceImpl implements LoginService {
 	
 	/**
 	 * 获取权限列表
-	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Rank> getRankListSession(HttpServletRequest request, Admin admin){

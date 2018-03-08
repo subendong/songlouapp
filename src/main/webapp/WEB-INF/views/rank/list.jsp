@@ -6,7 +6,7 @@
 		<tr class="headings">
 			<th class="column-title col-md-1" style="display: table-cell;">ID
 			</th>
-			<th class="column-title col-md-4" style="display: table-cell;">权限名称</th>
+			<th class="column-title col-md-4" style="display: table-cell;">资源名称</th>
 			<th class="column-title col-md-2" style="display: table-cell;">模块
 			</th>
 			<th class="column-title col-md-2" style="display: table-cell;">操作</th>

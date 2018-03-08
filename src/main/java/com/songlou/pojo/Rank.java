@@ -11,6 +11,7 @@ public class Rank {
 	private int innerOrder;//同级排序，越小越靠前
 	private int outerOrder;//同rootId排序，越小越靠前
 	private int depth;//深度（几级权限）
+	private int child;//子权限数量
 	
 	public int getId() {
 		return id;
@@ -71,6 +72,12 @@ public class Rank {
 	}
 	public void setDepth(int depth) {
 		this.depth = depth;
+	}
+	public int getChild() {
+		return child;
+	}
+	public void setChild(int child) {
+		this.child = child;
 	}
 	
 	@Override
